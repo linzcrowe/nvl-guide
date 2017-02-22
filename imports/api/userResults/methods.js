@@ -18,16 +18,7 @@ function shuffle (array) {
 
 export const insertUserResult = new ValidatedMethod({
   name: 'userResults.insert',
-  validate: new SimpleSchema({
-    _id: { type: String, regEx: SimpleSchema.RegEx.Id },
-    stage: { type: Number },
-    cardsRemaining: { type: [String] },
-    likeEnergise: { type: [String] },
-    likeDrain: { type: [String] },
-    notLike: { type: [String] },
-    shadow: { type: [String] },
-    ownerUserId: { type: String, regEx: SimpleSchema.RegEx.Id },
-  }).validator(),
+  validate: new SimpleSchema({}).validator(),
   run() {
     // Only logged in users can create their user results
     if (!this.userId) {
@@ -67,4 +58,38 @@ export const insertUserResult = new ValidatedMethod({
 
     return UserResults.insert(result);
   },
+});
+
+export const moveToLikeEnergise = new ValidatedMethod({
+  name: 'userResults.moveToLikeEnergise',
+  validate: new SimpleSchema({
+    card: { type: String },
+  }).validator(),
+  run(card) {
+    if (!this.userId) {
+      throw new Meteor.Error('userResults.moveToLikeEnergise.unauthorised',
+        'User must be logged in to move card');
+    }
+
+    const result = UserResults.findOne( { ownerUserId: this.userId } );
+
+    if (!result.cardsRemaining.includes(card)) {
+      throw new Meteor.Error('userResults.moveToLikeEnergise.cardNotFound',
+        'card ' + card + ' is not in remaining cards pile');
+    }
+
+    const cardIndex = result.cardsRemaining.indexOf(card);
+    let cardsRemaining = result.cardsRemaining.concat([]);
+    cardsRemaining.splice(cardIndex, 1);
+
+    let likeEnergise = result.likeEnergise.concat();
+    likeEnergise.unshift(card);
+
+    UserResults.update(result._id, { 
+      $set: {
+        cardsRemaining: cardsRemaining,
+        likeEnergise: likeEnergise,
+      }
+    });
+  }
 });

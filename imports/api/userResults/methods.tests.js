@@ -1,17 +1,15 @@
 /* eslint-env mocha */
 /* eslint-disable func-names, prefer-arrow-callback */
 
-import { Factory } from 'meteor/dburles:factory';
-import { PublicationCollector } from 'meteor/johanbrook:publication-collector';
 import { expect } from 'chai';
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { UserResults } from './userResults.js';
-import { insertUserResult } from './methods.js';
+import { insertUserResult, moveToLikeEnergise } from './methods.js';
 
 if (Meteor.isServer) {
-  describe('userResults @watch', function () {
+  describe('userResults', function () {
     describe('methods', function () {
       describe('insert', function() {
         describe('when there is no result for the user', function() {
@@ -37,13 +35,15 @@ if (Meteor.isServer) {
           });
 
           it('throws the error userResults.insert.existingResult', function() {
-            expect(() => insertUserResult.run.call({userId: userId})).to.throw(Error, '[userResults.insert.existingResult]');
+            expect(() => insertUserResult.run.call({userId: userId}))
+            .to.throw(Error, '[userResults.insert.existingResult]');
           });
         });
 
         describe('when the user is not logged in', function() {
           it('throws the error userResults.insert.unauthorised', function() {
-            expect(() => insertUserResult.run.call({userId: undefined})).to.throw(Error, '[userResults.insert.unauthorised]');
+            expect(() => insertUserResult.run.call({userId: undefined}))
+            .to.throw(Error, '[userResults.insert.unauthorised]');
           });
         });
 
@@ -79,9 +79,78 @@ if (Meteor.isServer) {
 
           it('contains no shadow cards', function() {
             expect(result.shadow.length).to.equal(0);
-          })
-        })
+          });
+        });
       });
+
+      describe('moveToLikeEnergise', function() {
+        describe('when the user is not logged in', function() {
+          beforeEach(function() {
+            resetDatabase();
+          });
+
+          it('throws the error userResults.moveToLikeEnergise.unauthorised', function() {
+            expect(() => moveToLikeEnergise.run.call({ userId: undefined }))
+              .to.throw(Error, '[userResults.moveToLikeEnergise.unauthorised]');
+          });
+        });
+
+        describe('when the card is not in the remaining pile', function() {
+          const userId = Random.id();
+          const card = 'h2';
+          let resultId;
+
+          beforeEach(function() {
+            resetDatabase();
+            let r = { 
+              stage: 0,
+              cardsRemaining: [],
+              likeEnergise: [],
+              likeDrain: [],
+              notLike: [],
+              shadow: [],
+              ownerUserId: userId,
+            };
+            resultId = UserResults.insert(r);
+          });
+
+          it('throws the error card is not in remaining cards pile', function() {
+            expect(() => moveToLikeEnergise.run.call({ userId: userId }))
+              .to.throw(Error, '[userResults.moveToLikeEnergise.cardNotFound]');
+          });
+        });
+
+        describe('when the card is in the remaining pile', function() {
+          const userId = Random.id();
+          const card = 'h2';
+          let result;
+
+          beforeEach(function() {
+            resetDatabase();
+            let r = { 
+              stage: 0,
+              cardsRemaining: [],
+              likeEnergise: [],
+              likeDrain: [],
+              notLike: [],
+              shadow: [],
+              ownerUserId: userId,
+            };
+            r.cardsRemaining.push(card);
+            let resultId = UserResults.insert(r);
+            moveToLikeEnergise.run.call({ userId: userId }, card);
+            result = UserResults.findOne(resultId);
+          });
+
+          it('removes the card from the remaining pile', function() {
+            expect(result.cardsRemaining.includes(card)).to.be.false;
+          });
+
+          it('adds the card to the like energise pile', function() {
+            expect(result.likeEnergise.includes(card)).to.be.true;
+          });
+        })
+      })
     });
   });
 }
