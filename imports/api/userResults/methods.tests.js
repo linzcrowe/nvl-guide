@@ -7,7 +7,8 @@ import { Random } from 'meteor/random';
 import { resetDatabase } from 'meteor/xolvio:cleaner';
 import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
-import { insertUserResult, moveToLikeEnergise, moveToLikeDrain } from './methods.js';
+import { insertUserResult, moveToLikeEnergise, 
+         moveToLikeDrain, moveToNotLike } from './methods.js';
 
 if (Meteor.isServer) {
   describe('userResults', function () {
@@ -134,33 +135,47 @@ if (Meteor.isServer) {
         });
 
         describe('when the card is in the remaining pile', function() {
-          const userId = Random.id();
-          const card = 'h2';
-          let result;
+          describe('and the card is not a shadow', function() {
+            const userId = Random.id();
+            const card = 'ha';
+            let result;
 
-          beforeEach(function() {
-            resetDatabase();
-            let r = { 
-              stage: 0,
-              cardsRemaining: [],
-              likeEnergise: [],
-              likeDrain: [],
-              notLike: [],
-              shadow: [],
-              ownerUserId: userId,
-            };
-            r.cardsRemaining.push(card);
-            let resultId = UserResults.insert(r);
-            moveToLikeEnergise.run.call({ userId: userId }, card);
-            result = UserResults.findOne(resultId);
+            beforeEach(function() {
+              resetDatabase();
+              let r = Factory.tree('userResults.new', {
+                cardsRemaining: [card],
+                ownerUserId: userId,
+              });
+              let resultId = UserResults.insert(r);
+              moveToLikeEnergise.run.call({ userId: userId }, card);
+              result = UserResults.findOne(resultId);
+            });
+
+            it('removes the card from the remaining pile', function() {
+              expect(result.cardsRemaining.includes(card)).to.be.false;
+            });
+
+            it('adds the card to the like energise pile', function() {
+              expect(result.likeEnergise.includes(card)).to.be.true;
+            });
           });
 
-          it('removes the card from the remaining pile', function() {
-            expect(result.cardsRemaining.includes(card)).to.be.false;
-          });
+          describe('and the card is a shadow', function() {
+            const userId = Random.id();
+            const card = 'h2';
 
-          it('adds the card to the like energise pile', function() {
-            expect(result.likeEnergise.includes(card)).to.be.true;
+            beforeEach(function() {
+              resetDatabase();
+              Factory.create('userResults.new', {
+                cardsRemaining: [card],
+                ownerUserId: userId,
+              });
+            });
+
+            it('throws the error userResults.moveToLikeEnergise.shadowCard', function() {
+              expect(() => moveToLikeEnergise.run.call({userId: userId}, card))
+                .to.throw(Error, '[userResults.moveToLikeEnergise.shadow]');
+            });
           });
         });
       });
@@ -172,7 +187,7 @@ if (Meteor.isServer) {
           });
 
           it('throws the error userResults.moveToLikeDrain.unauthorised', function() {
-            expect(() => moveToLikeDrain.run.call({userId: undefined}, 'h2'))
+            expect(() => moveToLikeDrain.run.call({userId: undefined}, ''))
               .to.throw(Error, '[userResults.moveToLikeDrain.unauthorised]');
           });
         });
@@ -185,7 +200,7 @@ if (Meteor.isServer) {
           });
 
           it('throws the error userResults.moveToLikeDrain.noResult', function() {
-            expect(() => moveToLikeDrain.run.call({userId: userId}, 'h2'))
+            expect(() => moveToLikeDrain.run.call({userId: userId}, ''))
               .to.throw(Error, '[userResults.moveToLikeDrain.noResult]');
           });
         });
@@ -228,6 +243,92 @@ if (Meteor.isServer) {
           it('adds the card to the like drain pile', function() {
             expect(result.likeDrain.includes(card)).to.be.true;
           });
+        });
+      });
+
+      describe('moveToNotLike', function() {
+        describe('when the user is not logged in', function() {
+          beforeEach(function() {
+            resetDatabase();
+          });
+
+          it('throws the error userResults.moveToNotLike.unauthorised', function() {
+            expect(() => moveToNotLike.run.call({userId: undefined}, ''))
+              .to.throw(Error, '[userResults.moveToNotLike.unauthorised]');
+          });
+        });
+
+        describe('when the user does not have a result', function() {
+          const userId = Random.id();
+
+          beforeEach(function() {
+            resetDatabase();
+          });
+
+          it('throws the error userResults.moveToNotLike.noResult', function() {
+            expect(() => moveToNotLike.run.call({userId: userId}, ''))
+              .to.throw(Error, '[userResults.moveToNotLike.noResult]');
+          });
+        });
+
+        describe('when the card is not in the remaining pile', function() {
+          const userId = Random.id();
+
+          beforeEach(function() {
+            resetDatabase();
+            Factory.create('userResults.new', {
+              ownerUserId: userId,
+            });
+          });
+
+          it('throws the error userResults.moveToNotLike.cardNotFound', function() {
+            expect(() => moveToNotLike.run.call({userId: userId}, ''))
+              .to.throw(Error, '[userResults.moveToNotLike.cardNotFound');
+          });
+        });
+
+        describe('when the card is in the remaining pile', function() {
+          describe('and the card is not a shadow', function() {
+            let card = 'ha';
+            let result;
+
+            beforeEach(function() {
+              const userId = Random.id();
+              resetDatabase();
+              Factory.create('userResults.new', {
+                ownerUserId: userId,
+                cardsRemaining: [card],
+              });
+              moveToNotLike.run.call({userId: userId}, card);
+              result = UserResults.findOne({ownerUserId: userId});
+            });
+
+            it('removes the card from the remaining pile', function() {
+              expect(result.cardsRemaining.includes(card)).to.be.false;
+            });
+
+            it('adds the card to the not like pile', function() {
+              expect(result.notLike.includes(card)).to.be.true;
+            });
+          });
+
+          describe('and the card is a shadow', function() {
+            let userId = Random.id();
+            let card = 'h2';
+
+            beforeEach(function() {
+              resetDatabase();
+              Factory.create('userResults.new', {
+                cardsRemaining: [card],
+                ownerUserId: userId,
+              });
+            });
+
+            it('throws the error userResults.moveToNotLike.shadow', function() {
+              expect(() => moveToNotLike.run.call({userId: userId}, card))
+                .to.throw(Error, '[userResults.moveToNotLike.shadow');
+            })
+          })
         });
       });
     });

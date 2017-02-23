@@ -22,6 +22,13 @@ UserResults.publicFields = {
   ownerUserId: 1,
 };
 
+UserResults.shadowCards = [
+  'h2', 'h3', 'h4',
+  'd2', 'd3', 'd4',
+  's2', 's3', 's4',
+  'c2', 'c3', 'c4',
+];
+
 Factory.define('userResults.new', UserResults, {
   stage: 0,
   cardsRemaining: [
@@ -43,5 +50,8 @@ Factory.define('userResults.new', UserResults, {
 UserResults.helpers = {
   hasZeroResults(userId) {
     return UserResults.find({ ownerUserId: userId }).count() == 0;
+  },
+  isShadowCard(card) {
+    return UserResults.shadowCards.includes(card);
   }
 };
