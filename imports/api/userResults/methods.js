@@ -1,19 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
 
-function shuffle (array) {
-  var i = 0
+function shuffle (cards) {
+  let shuffled = cards.concat([]);
+  let i = 0
     , j = 0
     , temp = null
 
-  for (i = array.length - 1; i > 0; i -= 1) {
+  for (i = shuffled.length - 1; i > 0; i -= 1) {
     j = Math.floor(Math.random() * (i + 1))
-    temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
+    temp = shuffled[i]
+    shuffled[i] = shuffled[j]
+    shuffled[j] = temp
   }
+
+  return shuffled;
 }
 
 export const insertUserResult = new ValidatedMethod({
@@ -26,35 +30,17 @@ export const insertUserResult = new ValidatedMethod({
         'User must be logged in to create a new result');
     }
 
-    // Users can only have a single result
-    if ( UserResults.find({ownerUserId: this.userId}).count() != 0 ) {
+    // User does not have any results
+    if (!UserResults.helpers.hasZeroResults(this.userId)) {
       throw new Meteor.Error('userResults.insert.existingResult',
-        'User can only have a single result');
+        'User must not have an existing result');
     }
 
-    let deckOfCards = [
-        'ha', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', // hearts
-        'h8', 'h9', 'h10', 'hj', 'hq', 'hk',
-        'da', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', // diamonds
-        'd8', 'd9', 'd10', 'dj', 'dq', 'dk',
-        'sa', 's2', 's3', 's4', 's5', 's6', 's7', // spades
-        's8', 's9', 's10', 'sj', 'sq', 'sk',
-        'ca', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', // clubs
-        'c8', 'c9', 'c10', 'cj', 'cq', 'ck'];
-
-    // So that the order users go through the cards is always different
-    shuffle(deckOfCards);
-
-    // Inserts always place a new, default setup result
-    const result = {
-      stage: 0,
-      cardsRemaining: deckOfCards,
-      likeEnergise: [],
-      likeDrain: [],
-      notLike: [],
-      shadow: [],
+    let result = Factory.tree('userResults.new', {
       ownerUserId: this.userId,
-    }
+    });
+    // shuffle the deck
+    result.cardsRemaining = shuffle(result.cardsRemaining);
 
     return UserResults.insert(result);
   },
@@ -66,9 +52,19 @@ export const moveToLikeEnergise = new ValidatedMethod({
     card: { type: String },
   }).validator(),
   run(card) {
+    if (card === undefined) {
+      throw new Meteor.Error('userResults.moveToLikeEnergise.missingParameter',
+        'Card cannot be undefined');
+    }
+
     if (!this.userId) {
       throw new Meteor.Error('userResults.moveToLikeEnergise.unauthorised',
         'User must be logged in to move card');
+    }
+
+    if(UserResults.helpers.hasZeroResults(this.userId)) {
+      throw new Meteor.Error('userResults.moveToLikeEnergise.noResult',
+        'User must have a result to modify');
     }
 
     const result = UserResults.findOne( { ownerUserId: this.userId } );
@@ -78,9 +74,8 @@ export const moveToLikeEnergise = new ValidatedMethod({
         'card ' + card + ' is not in remaining cards pile');
     }
 
-    const cardIndex = result.cardsRemaining.indexOf(card);
     let cardsRemaining = result.cardsRemaining.concat([]);
-    cardsRemaining.splice(cardIndex, 1);
+    cardsRemaining.splice(result.cardsRemaining.indexOf(card), 1);
 
     let likeEnergise = result.likeEnergise.concat();
     likeEnergise.unshift(card);
@@ -89,6 +84,49 @@ export const moveToLikeEnergise = new ValidatedMethod({
       $set: {
         cardsRemaining: cardsRemaining,
         likeEnergise: likeEnergise,
+      }
+    });
+  }
+});
+
+export const moveToLikeDrain = new ValidatedMethod({
+  name: 'userResults.moveToLikeDrain',
+  validate: new SimpleSchema({
+    card: { type: String },
+  }).validator(),
+  run(card) {
+    if (card === undefined) {
+      throw new Meteor.Error('userResults.moveToLikeDrain.missingParameter',
+        'Card cannot be undefined');
+    }
+
+    if (!this.userId) {
+      throw new Meteor.Error('userResults.moveToLikeDrain.unauthorised',
+        'User must be logged in to move card');
+    }
+
+    if (UserResults.helpers.hasZeroResults(this.userId)) {
+      throw new Meteor.Error('userResults.moveToLikeDrain.noResult',
+        'User must have a result to modify');
+    }
+
+    const result = UserResults.findOne( { ownerUserId: this.userId } );
+
+    if (!result.cardsRemaining.includes(card)) {
+      throw new Meteor.Error('userResults.moveToLikeDrain.cardNotFound',
+        'card ' + card + ' is not in the remaining cards pile');
+    }
+
+    let cardsRemaining = result.cardsRemaining.concat([]);
+    cardsRemaining.splice(result.cardsRemaining.indexOf(card), 1);
+
+    let likeDrain = result.likeDrain.concat([]);
+    likeDrain.unshift(card);
+
+    UserResults.update(result._id, {
+      $set: {
+        cardsRemaining: cardsRemaining,
+        likeDrain: likeDrain,
       }
     });
   }
