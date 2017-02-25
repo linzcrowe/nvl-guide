@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chimp": "^0.47.2"
+    "chimp": "^0.47.2",
+    "enzyme": "^2.7.1",
+    "react-addons-test-utils": "^15.4.2"
   }
 }
