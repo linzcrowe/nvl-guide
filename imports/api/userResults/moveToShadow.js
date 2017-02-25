@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
 
@@ -24,9 +24,11 @@ export default moveToShadow = new ValidatedMethod({
         'User must be logged in to move card');
     }
 
-    if (UserResults.helpers.hasZeroResults(this.userId)) {
+    const results = UserResults.helpers.results(this.userId);
+
+    if (results.count() !== 1) {
       throw new Meteor.Error('userResults.moveToShadow.noResult',
-        'User must have a result to modify');
+        'User must have one result to modify');
     }
 
     if(!UserResults.helpers.isShadowCard(card)) {
@@ -34,7 +36,7 @@ export default moveToShadow = new ValidatedMethod({
         'Card must be a shadow (' + card + ')');
     }
 
-    const result = UserResults.findOne( { ownerUserId: this.userId } );
+    const result = results.fetch()[0];
 
     if (!result.cardsRemaining.includes(card)) {
       throw new Meteor.Error('userResults.moveToShadow.cardNotFound',

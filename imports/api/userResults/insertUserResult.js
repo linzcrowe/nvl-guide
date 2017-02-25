@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
 
@@ -30,8 +30,7 @@ export default insertUserResult = new ValidatedMethod({
         'User must be logged in to create a new result');
     }
 
-    // User does not have any results
-    if (!UserResults.helpers.hasZeroResults(this.userId)) {
+    if (UserResults.helpers.results(this.userId).count() !== 0) {
       throw new Meteor.Error('userResults.insert.existingResult',
         'User must not have an existing result');
     }

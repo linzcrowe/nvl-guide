@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
 import { Random } from 'meteor/random';
 
@@ -48,8 +48,8 @@ Factory.define('userResults.new', UserResults, {
 });
 
 UserResults.helpers = {
-  hasZeroResults(userId) {
-    return UserResults.find({ ownerUserId: userId }).count() == 0;
+  results(userId) {
+    return UserResults.find({ ownerUserId: userId });
   },
   isShadowCard(card) {
     return UserResults.shadowCards.includes(card);
