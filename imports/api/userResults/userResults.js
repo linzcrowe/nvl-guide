@@ -53,5 +53,8 @@ UserResults.helpers = {
   },
   isShadowCard(card) {
     return UserResults.shadowCards.includes(card);
+  },
+  topShadowCard(shadowCards) {
+    return shadowCards[0];
   }
 };
