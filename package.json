@@ -5,7 +5,7 @@
     "start": "meteor run",
     "chimp-test": "node_modules/chimp/bin/chimp.js --ddp=http://localhost:3000 --mocha --path=tests",
     "chimp-watch": "node_modules/chimp/bin/chimp.js --ddp=http://localhost:3000 --watch --mocha --path=tests",
-    "meteor-test": "meteor test --driver-package=practicalmeteor:mocha"
+    "meteor-test": "meteor test --driver-package=practicalmeteor:mocha --port 4000"
   },
   "dependencies": {
     "babel-runtime": "6.18.0",
@@ -21,6 +21,7 @@
     "chai": "^3.5.0",
     "chimp": "^0.47.2",
     "enzyme": "^2.7.1",
-    "react-addons-test-utils": "^15.4.2"
+    "react-addons-test-utils": "^15.4.2",
+    "sinon": "^1.17.7"
   }
 }
