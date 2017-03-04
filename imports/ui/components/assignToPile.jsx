@@ -1,6 +1,12 @@
 import React, { PropTypes } from 'react';
 
 export default AssignToPile = (props) => {
+  const callback = (err, suc) => {
+    if (err) {
+      alert(JSON.stringify(err));
+    }
+  };
+  
   return (
     <div>
       <h1>Assign to Pile</h1>
@@ -8,15 +14,15 @@ export default AssignToPile = (props) => {
       <p>{props.card}</p>
       <div>
         <button 
-          onClick={props.onAssignToLikeEnergise}>
+          onClick={() => props.onAssignToLikeEnergise(callback)}>
           Like me & energises me
         </button>
         <button 
-          onClick={props.onAssignToLikeDrain}>
+          onClick={() => props.onAssignToLikeDrain(callback)}>
           Like me but drains / does not energise me
         </button>
         <button
-          onClick={props.onAssignToNotLike}>
+          onClick={() => props.onAssignToNotLike(callback)}>
           Not like me
         </button>
       </div>

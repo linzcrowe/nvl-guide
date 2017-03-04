@@ -7,17 +7,13 @@ import moveToLikeDrain from '../../api/userResults/moveToLikeDrain.js';
 import moveToNotLike from '../../api/userResults/moveToNotLike.js';
  
 export default AssignToPileContainer = createContainer((props) => {
-  const errorAlert = (error) => {
-    if(error) {
-      alert(error.reason);
-    }
-  }
+  const card = props.card;
 
   return {
-    card: props.card,
-    onAssignToLikeEnergise: () => moveToLikeEnergise.call(props.card, errorAlert),
-    onAssignToLikeDrain: () => moveToLikeDrain.call(props.card, errorAlert),
-    onAssignToNotLike: () => moveToNotLike.call(props.card, errorAlert),
+    card: card,
+    onAssignToLikeEnergise: (callback) => moveToLikeEnergise.call({ card: card}, callback),
+    onAssignToLikeDrain: (callback) => moveToLikeDrain.call({ card: card }, callback),
+    onAssignToNotLike: (callback) => moveToNotLike.call({ card: card }, callback),
   };
 }, AssignToPile);
 
