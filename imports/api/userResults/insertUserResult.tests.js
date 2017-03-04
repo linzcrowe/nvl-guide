@@ -60,8 +60,8 @@ if (Meteor.isServer) {
         result = UserResults.findOne({ownerUserId: userId});
       });
 
-      it('contains a complete remaining deck', function() {
-        expect(result.cardsRemaining.length).to.equal(52);
+      it('contains a complete deck minus one card', function() {
+        expect(result.cardsRemaining.length).to.equal(51);
       });
 
       it('contains no like energise cards', function() {
@@ -80,8 +80,8 @@ if (Meteor.isServer) {
         expect(result.stage).to.equal(0);
       });
 
-      it('contains no shadow cards', function() {
-        expect(result.shadow.length).to.equal(0);
+      it('contains one shadow card', function() {
+        expect(result.shadow.length).to.equal(1);
       });
     });
   });
