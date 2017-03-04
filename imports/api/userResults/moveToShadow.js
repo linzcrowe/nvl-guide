@@ -11,10 +11,7 @@ export default moveToShadow = new ValidatedMethod({
     card: { type: String },
     toFront: { type: Boolean },
   }).validator(),
-  run(params) {
-    const card = params.card;
-    const toFront = params.toFront;
-
+  run({card, toFront}) {
     if (card === undefined) {
       throw new Meteor.Error('userResults.moveToShadow.missingParameter',
         'Card cannot be undefined');

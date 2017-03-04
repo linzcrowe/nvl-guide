@@ -10,14 +10,7 @@ export default moveToLikeDrain = new ValidatedMethod({
   validate: new SimpleSchema({
     card: { type: String },
   }).validator(),
-  run(params) {
-    const card = params.card;
-    
-    if (card === undefined) {
-      throw new Meteor.Error('userResults.moveToLikeDrain.missingParameter',
-        'Card cannot be undefined');
-    }
-
+  run({card}) {
     if (!this.userId) {
       throw new Meteor.Error('userResults.moveToLikeDrain.unauthorised',
         'User must be logged in to move card');

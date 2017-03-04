@@ -10,14 +10,7 @@ export default moveToNotLike = new ValidatedMethod({
   validate: new SimpleSchema({
     card: { type: String },
   }).validator(),
-  run(params) {
-    const card = params.card;
-    
-    if (card === undefined) {
-      throw new Meteor.Error('userResults.moveToNotLike.missingParameter',
-        'Card cannot be undefined');
-    }
-
+  run({card}) {
     if (!this.userId) {
       throw new Meteor.Error('userResults.moveToNotLike.unauthorised',
         'User must be logged in to move card');
