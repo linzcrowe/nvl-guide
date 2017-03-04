@@ -1,7 +1,9 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
+import 'meteor/dburles:collection-helpers';
 import { Random } from 'meteor/random';
+import Stages from './stages.js';
 
 export const UserResults = new Mongo.Collection('userResults');
 
@@ -22,15 +24,8 @@ UserResults.publicFields = {
   ownerUserId: 1,
 };
 
-UserResults.shadowCards = [
-  'h2', 'h3', 'h4',
-  'd2', 'd3', 'd4',
-  's2', 's3', 's4',
-  'c2', 'c3', 'c4',
-];
-
 Factory.define('userResults.new', UserResults, {
-  stage: 0,
+  stage: Stages.SORT,
   cardsRemaining: [
         'ha', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', // hearts
         'h8', 'h9', 'h10', 'hj', 'hq', 'hk',
@@ -41,20 +36,28 @@ Factory.define('userResults.new', UserResults, {
         'ca', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', // clubs
         'c8', 'c9', 'c10', 'cj', 'cq', 'ck'],
   likeEnergise: [],
+  likeEnergiseRanked: [],
   likeDrain: [],
   notLike: [],
   shadow: [],
   ownerUserId: Random.id(),
 });
 
-UserResults.helpers = {
-  results(userId) {
-    return UserResults.find({ ownerUserId: userId });
+UserResults.helpers({
+  topShadowCard() {
+    return this.shadow[0];
   },
-  isShadowCard(card) {
-    return UserResults.shadowCards.includes(card);
-  },
-  topShadowCard(shadowCards) {
-    return shadowCards[0];
+  topRemainingCard() {
+    return this.cardsRemaining[0];
   }
-};
+});
+
+export const isShadowCard = (card) => {
+  const shadowCards = [
+    'h2', 'h3', 'h4',
+    'd2', 'd3', 'd4',
+    's2', 's3', 's4',
+    'c2', 'c3', 'c4',
+  ];
+  return shadowCards.includes( card );
+}
