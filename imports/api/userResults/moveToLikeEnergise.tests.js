@@ -14,7 +14,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeEnergise.unauthorised', function() {
-        expect(() => moveToLikeEnergise.run.call({ userId: undefined }, 'h2'))
+        expect(() => moveToLikeEnergise.run.call({ userId: undefined }, {card: 'h2'}))
           .to.throw(Error, '[userResults.moveToLikeEnergise.unauthorised]');
       });
     });
@@ -27,7 +27,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeEnergise.noResult', function() {
-        expect(() => moveToLikeEnergise.run.call({userId: userId}, 'h2'))
+        expect(() => moveToLikeEnergise.run.call({userId: userId}, {card: 'h2'}))
           .to.throw(Error, '[userResults.moveToLikeEnergise.noResult]');
       });
     });
@@ -47,34 +47,71 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeEnergise.cardNotFound', function() {
-        expect(() => moveToLikeEnergise.run.call({ userId: userId }, card))
+        expect(() => moveToLikeEnergise.run.call({ userId: userId }, {card: card}))
           .to.throw(Error, '[userResults.moveToLikeEnergise.cardNotFound]');
       });
     });
 
     describe('when the card is in the remaining pile', function() {
       describe('and the card is not a shadow', function() {
-        const userId = Random.id();
-        const card = 'ha';
-        let result;
+        describe('and there are less than four ranked like energise cards', function() {
+          const userId = Random.id();
+          const card = 'ha';
+          let result;
 
-        beforeEach(function() {
-          resetDatabase();
-          let r = Factory.tree('userResults.new', {
-            cardsRemaining: [card],
-            ownerUserId: userId,
+          beforeEach(function() {
+            resetDatabase();
+            let r = Factory.tree('userResults.new', {
+              cardsRemaining: [card],
+              ownerUserId: userId,
+            });
+            let resultId = UserResults.insert(r);
+            moveToLikeEnergise.run.call({ userId: userId }, {card: card});
+            result = UserResults.findOne(resultId);
           });
-          let resultId = UserResults.insert(r);
-          moveToLikeEnergise.run.call({ userId: userId }, card);
-          result = UserResults.findOne(resultId);
+
+          it('removes the card from the remaining pile', function() {
+            expect(result.cardsRemaining.includes(card)).to.be.false;
+          });
+
+          it('adds the card to the like energise pile', function() {
+            expect(result.likeEnergise.includes(card)).to.be.true;
+          });
+
+          it('adds the card to the ranked like energise pile', function() {
+            expect(result.likeEnergiseRanked.includes(card)).to.be.true;
+          });
         });
 
-        it('removes the card from the remaining pile', function() {
-          expect(result.cardsRemaining.includes(card)).to.be.false;
-        });
+        describe('and there are four ranked like energise cards', function() {
+          const userId = Random.id();
+          const card = 'ha';
+          let result;
 
-        it('adds the card to the like energise pile', function() {
-          expect(result.likeEnergise.includes(card)).to.be.true;
+          beforeEach(function() {
+            resetDatabase();
+            let r = Factory.tree('userResults.new', {
+              cardsRemaining: [card],
+              likeEnergise: ['s6', 's7', 's8', 's9'],
+              likeEnergiseRanked: ['s6', 's7', 's8', 's9'],
+              ownerUserId: userId,
+            });
+            let resultId = UserResults.insert(r);
+            moveToLikeEnergise.run.call({ userId: userId }, {card: card});
+            result = UserResults.findOne(resultId);
+          });
+
+          it('removes the card from the remaining pile', function() {
+            expect(result.cardsRemaining.includes(card)).to.be.false;
+          });
+
+          it('adds the card to the like energise pile', function() {
+            expect(result.likeEnergise.includes(card)).to.be.true;
+          });
+
+          it('does not add the card to the ranked like energise pile', function() {
+            expect(result.likeEnergiseRanked.includes(card)).to.be.false;
+          });
         });
       });
 
@@ -91,7 +128,7 @@ if (Meteor.isServer) {
         });
 
         it('throws the error userResults.moveToLikeEnergise.shadowCard', function() {
-          expect(() => moveToLikeEnergise.run.call({userId: userId}, card))
+          expect(() => moveToLikeEnergise.run.call({userId: userId}, {card: card}))
             .to.throw(Error, '[userResults.moveToLikeEnergise.shadow]');
         });
       });
