@@ -18,7 +18,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToNotLike.unauthorised', function() {
-        expect(() => moveToNotLike.run.call({userId: undefined}, ''))
+        expect(() => moveToNotLike.run.call({userId: undefined}, {card: ''}))
           .to.throw(Error, '[userResults.moveToNotLike.unauthorised]');
       });
     });
@@ -31,7 +31,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToNotLike.noResult', function() {
-        expect(() => moveToNotLike.run.call({userId: userId}, ''))
+        expect(() => moveToNotLike.run.call({userId: userId}, {card: ''}))
           .to.throw(Error, '[userResults.moveToNotLike.noResult]');
       });
     });
@@ -47,7 +47,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToNotLike.cardNotFound', function() {
-        expect(() => moveToNotLike.run.call({userId: userId}, ''))
+        expect(() => moveToNotLike.run.call({userId: userId}, {card: ''}))
           .to.throw(Error, '[userResults.moveToNotLike.cardNotFound');
       });
     });
@@ -64,7 +64,7 @@ if (Meteor.isServer) {
             ownerUserId: userId,
             cardsRemaining: [card],
           });
-          moveToNotLike.run.call({userId: userId}, card);
+            moveToNotLike.run.call({userId: userId}, {card: card});
           result = UserResults.findOne({ownerUserId: userId});
         });
 
@@ -90,7 +90,7 @@ if (Meteor.isServer) {
         });
 
         it('throws the error userResults.moveToNotLike.shadow', function() {
-          expect(() => moveToNotLike.run.call({userId: userId}, card))
+          expect(() => moveToNotLike.run.call({userId: userId}, {card: card}))
             .to.throw(Error, '[userResults.moveToNotLike.shadow');
         });
       });
