@@ -1,17 +1,18 @@
 import React, { PropTypes } from 'react';
-import insertUserResult from '../../api/userResults/insertUserResult.js';
 
 export default NewTest = (props) => {
-  const createNewResult = () => {
-    insertUserResult.call((error) => {
-      if (error) {
-        alert(error.reason);
-      }
-    });
-  }
+  const dispError = (err, suc) => {
+    if (err) {
+      alert(JSON.stringify(err));
+    }
+  };
 
   const start = props.isLoggedIn ?
-    <button onClick={ props.onCreate } id='btnCreateResult' className='startTestButton' >
+    <button 
+      onClick={() => props.onCreate(dispError)}
+      id='btnCreateResult' 
+      className='startTestButton'
+    >
         Start Now
     </button>
     :
@@ -20,7 +21,7 @@ export default NewTest = (props) => {
   return (
     <div>
       <h2>Start NVL Test</h2>
-      <p id='pUserMustLogin'>The NVL test will take you through 3 steps to determine your result.</p>
+      <p>The NVL test will take you through 3 steps to determine your result.</p>
       {start}
     </div>
   );
