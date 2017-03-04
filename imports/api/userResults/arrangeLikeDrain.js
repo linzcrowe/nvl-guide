@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
+import Logger from '../logger.js';
 
 export default arrangeLikeDrain = new ValidatedMethod({
   name: 'userResults.arrangeLikeDrain',
@@ -20,7 +21,7 @@ export default arrangeLikeDrain = new ValidatedMethod({
         'User must be logged in');
     }
 
-    const results = UserResults.helpers.results(this.userId);
+    const results = UserResults.find({ ownerUserId: this.userId });
 
     if (results.count() !== 1) {
       throw new Meteor.Error('userResults.arrangeLikeDrain.noResult',
@@ -47,6 +48,14 @@ export default arrangeLikeDrain = new ValidatedMethod({
     if (!match) {
       throw new Meteor.Error('userResults.arrangeLikeDrain.mismatch',
         'Card ' + cards.toString() + ' must be the same as the existing like drain pile');
+    }
+
+    if (Meteor.isServer) {
+      Logger.debug('userResults.arrangeLikeDrain: setting new likeDrain arrangement', { 
+        userId: this.userId, 
+        result: result,
+        toLikeDrain: cards,
+      });
     }
 
     UserResults.update(result._id, {

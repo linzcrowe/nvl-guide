@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
 import { UserResults } from './userResults.js';
+import Logger from '../logger.js';
 
 export default arrangeLikeEnergise = new ValidatedMethod({
   name: 'userResults.arrangeLikeEnergise',
@@ -20,7 +21,7 @@ export default arrangeLikeEnergise = new ValidatedMethod({
         'User must be logged in to arrange like energise');
     }
 
-    const results = UserResults.helpers.results(this.userId);
+    const results = UserResults.find({ ownerUserId: this.userId });
 
     if (results.count() !== 1) {
       throw new Meteor.Error('userResults.arrangeLikeEnergise.noResult',
@@ -47,6 +48,14 @@ export default arrangeLikeEnergise = new ValidatedMethod({
     if (!match) {
       throw new Meteor.Error('userResults.arrangeLikeEnergise.mismatch',
         'Card ' + cards.toString() + ' must be the same as the existing like energise pile');
+    }
+
+    if (Meteor.isServer) {
+      Logger.debug('userResults.arrangeLikeEnergise: setting new arrangement', { 
+        userId: this.userId, 
+        result: result,
+        toLikeEnergise: cards,
+      });
     }
 
     UserResults.update(result._id, {
