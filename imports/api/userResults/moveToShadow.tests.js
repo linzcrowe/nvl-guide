@@ -17,7 +17,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToShadow.unauthorised', function() {
-        expect(() => moveToShadow.run.call({userId: undefined}, '', true))
+        expect(() => moveToShadow.run.call({userId: undefined}, {card: '', toFront: true}))
           .to.throw(Error, '[userResults.moveToShadow.unauthorised]');
       });
     });
@@ -30,7 +30,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToShadow.noResult', function() {
-        expect(() => moveToShadow.run.call({userId: userId}, '', true))
+        expect(() => moveToShadow.run.call({userId: userId}, {card: '', toFront: true}))
           .to.throw(Error, '[userResults.moveToShadow.noResult]');
       });
     });
@@ -47,7 +47,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToShadow.cardNotFound', function() {
-        expect(() => moveToShadow.run.call({userId: userId}, 'h2', true))
+        expect(() => moveToShadow.run.call({userId: userId}, {card: 'h2', toFront: true}))
           .to.throw(Error, '[userResults.moveToShadow.cardNotFound]');
       });
     });
@@ -65,7 +65,7 @@ if (Meteor.isServer) {
               ownerUserId: userId,
               cardsRemaining: [card],
             });
-            moveToShadow.run.call({userId: userId}, card, true);
+            moveToShadow.run.call({userId: userId}, {card: card, toFront: true});
             result = UserResults.findOne({ownerUserId: userId});
           });
 
@@ -89,7 +89,7 @@ if (Meteor.isServer) {
               ownerUserId: userId,
               cardsRemaining: [card],
             });
-            moveToShadow.run.call({userId: userId}, card, false);
+            moveToShadow.run.call({userId: userId}, {card: card, toFront: false});
             result = UserResults.findOne({ownerUserId: userId});
           });
 
@@ -116,7 +116,7 @@ if (Meteor.isServer) {
         });
 
         it('throws the error userResults.moveToShadow.notShadow', function() {
-          expect(() => moveToShadow.run.call({userId: userId}, card, true))
+          expect(() => moveToShadow.run.call({userId: userId}, {card: card, toFront: true}))
             .to.throw(Error, '[userResults.moveToShadow.notShadow]');
         });
       });
