@@ -14,7 +14,7 @@ export default rankLikeEnergise = new ValidatedMethod({
   run({card, toPosition}) {
     if (!this.userId) {
       throw new Meteor.Error('userResults.rankLikeEnergise.unauthorised',
-        'User must be logged in to arrange like energise');
+        'User must be logged in to rank like energise cards');
     }
 
     const results = UserResults.find({ ownerUserId: this.userId });
