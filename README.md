@@ -1,16 +1,20 @@
-# nvl-guide
-An automated version of the NVL game and guide.
-#  Purpose
-The NVL Guide helps users discover what skills or practises to focus on.
-Some things we have naturally within us, and in general we enjoy them and they energise us. Other things are learned through
-life, be it education or our through actions and events.
-To live life to the fullest, it helps to understand what energies and drains us, which correlates to natural versus learned,
-so we can focus our time and effort where possible on these things and live happier.
+# Overview
+
+An automated version of the NVL Indicator, which enables users to discover what they should focus their time on to get in flow and feel less drained and happier.
+
+#  NVL Indicator
+
+Some things we have naturally within us, and we enjoy and feel good after doing them. Other things leave us feeling either flat or drained, often being things we've learned and know we have to do.
+
+To live life to the fullest, it helps to understand what these things are. With this knowledge we can aim to focus and spend time on the good stuff, minimising what drains us and buffering it with energy building things.
+
+The sole aim of the NVL Indicator is to help you live a happier life with more energy to do more of what you want to do.
+
 # Tech stack
-Built on Meteor.js with:
-- UI components in React
-- Client routing in React-Router
-- Testing with Chimp (Mocha, Chai, WebDriverIO)
-# To install
-Grab a copy of the repo and 'npm install' to bring in the dependencies.
-Run locally via 'meteor', following its standard practises.
+
+Built on Meteor.js primarily with:
+- MongoDB
+- React
+- React-Router
+- Meteor's built in testing capabilities and Chimp (Mocha, Chai, WebDriverIO)
+See ./packages.json and ./.meteor/packages for a list of all NPM and Atmosphere packages.
