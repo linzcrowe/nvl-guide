@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import RankLikeEnergise from './rankLikeEnergise.jsx';
+import RankLikeDrain from './rankLikeDrain.jsx';
 
-export default RankLikeEnergiseContainer = createContainer((props) => {
+export default RankLikeDrainContainer = createContainer((props) => {
   if (props.ranked.length < 4) {
     throw new Error('Ranked cards is of insufficient length');
   }
@@ -17,7 +17,7 @@ export default RankLikeEnergiseContainer = createContainer((props) => {
     fourth: props.ranked[3],
     toRank: props.toRank[0],
   };
-}, RankLikeEnergise);
+}, RankLikeDrain);
 
 RankLikeEnergiseContainer.propTypes = {
   ranked: PropTypes.array.isRequired,
