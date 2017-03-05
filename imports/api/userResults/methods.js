@@ -5,3 +5,6 @@ import moveToNotLike from './moveToNotLike.js';
 import moveToShadow from './moveToShadow.js';
 import arrangeLikeDrain from './arrangeLikeDrain.js';
 import arrangeLikeEnergise from './arrangeLikeEnergise.js';
+import incrementStage from './incrementStage.js';
+import rankLikeEnergise from './rankLikeEnergise.js';
+import rankLikeDrain from './rankLikeDrain.js';

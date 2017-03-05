@@ -17,7 +17,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeDrain.unauthorised', function() {
-        expect(() => moveToLikeDrain.run.call({userId: undefined}, ''))
+        expect(() => moveToLikeDrain.run.call({userId: undefined}, {card: ''}))
           .to.throw(Error, '[userResults.moveToLikeDrain.unauthorised]');
       });
     });
@@ -30,7 +30,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeDrain.noResult', function() {
-        expect(() => moveToLikeDrain.run.call({userId: userId}, ''))
+        expect(() => moveToLikeDrain.run.call({userId: userId}, {card: ''}))
           .to.throw(Error, '[userResults.moveToLikeDrain.noResult]');
       });
     });
@@ -46,7 +46,7 @@ if (Meteor.isServer) {
       });
 
       it('throws the error userResults.moveToLikeDrain.cardNotFound', function() {
-        expect(() => moveToLikeDrain.run.call({userId: userId}, ''))
+        expect(() => moveToLikeDrain.run.call({userId: userId}, {card: ''}))
           .to.throw(Error, '[userResults.moveToLikeDrain.cardNotFound');
       });
     });
@@ -62,7 +62,7 @@ if (Meteor.isServer) {
           ownerUserId: userId,
         });
         card = UserResults.findOne({ownerUserId: userId}).cardsRemaining[0];
-        moveToLikeDrain.run.call({userId: userId}, card);
+        moveToLikeDrain.run.call({userId: userId}, {card: card});
         result = UserResults.findOne({ownerUserId: userId});
       });
 

@@ -2,32 +2,28 @@ import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import { Factory } from 'meteor/dburles:factory';
-import { UserResults } from './userResults.js';
+import { UserResults, isShadowCard } from './userResults.js';
+import Logger from '../logger.js';
 
 export default moveToLikeDrain = new ValidatedMethod({
   name: 'userResults.moveToLikeDrain',
   validate: new SimpleSchema({
     card: { type: String },
   }).validator(),
-  run(card) {
-    if (card === undefined) {
-      throw new Meteor.Error('userResults.moveToLikeDrain.missingParameter',
-        'Card cannot be undefined');
-    }
-
+  run({card}) {
     if (!this.userId) {
       throw new Meteor.Error('userResults.moveToLikeDrain.unauthorised',
         'User must be logged in to move card');
     }
 
-    const results = UserResults.helpers.results(this.userId);
+    const results = UserResults.find({ ownerUserId: this.userId });
 
     if (results.count() !== 1) {
       throw new Meteor.Error('userResults.moveToLikeDrain.noResult',
         'User must have one result to modify');
     }
 
-    if(UserResults.helpers.isShadowCard(card)) {
+    if(isShadowCard(card)) {
       throw new Meteor.Error('userResults.moveToLikeDrain.shadow',
         'Card must not be a shadow (' + card + ')');
     }
@@ -45,10 +41,26 @@ export default moveToLikeDrain = new ValidatedMethod({
     let likeDrain = result.likeDrain.concat([]);
     likeDrain.unshift(card);
 
+    let likeDrainRanked = result.likeDrainRanked.concat();
+    // To setup for ranking later, we put the first four in the ranked pile
+    if (likeDrainRanked.length < 4) {
+      likeDrainRanked.unshift(card);
+    }
+
+    if (Meteor.isServer) {
+      Logger.debug('userResults.moveToLikeDrain: moving card', { 
+        userId: this.userId, 
+        result: result,
+        toLikeDrain: likeDrain,
+        toLikeDrainRanked: likeDrainRanked,
+      });
+    }
+
     UserResults.update(result._id, {
       $set: {
         cardsRemaining: cardsRemaining,
         likeDrain: likeDrain,
+        likeDrainRanked: likeDrainRanked,
       }
     });
   }

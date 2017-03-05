@@ -30,3 +30,5 @@ mdg:validated-method
 johanbrook:publication-collector
 dburles:factory
 facebook-config-ui
+react-meteor-data
+dburles:collection-helpers
