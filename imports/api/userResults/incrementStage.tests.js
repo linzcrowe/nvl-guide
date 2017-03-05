@@ -68,7 +68,7 @@ if (Meteor.isServer) {
         });
 
         it('progresses to the next stage', function() {
-          expect(result.stage2).to.equal(Stages.RANK_LIKE_ENERGISE);
+          expect(result.stage).to.equal(Stages.RANK_LIKE_ENERGISE);
         });
       });
     });
