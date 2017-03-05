@@ -41,11 +41,18 @@ export default moveToLikeDrain = new ValidatedMethod({
     let likeDrain = result.likeDrain.concat([]);
     likeDrain.unshift(card);
 
+    let likeDrainRanked = result.likeDrainRanked.concat();
+    // To setup for ranking later, we put the first four in the ranked pile
+    if (likeDrainRanked.length < 4) {
+      likeDrainRanked.unshift(card);
+    }
+
     if (Meteor.isServer) {
       Logger.debug('userResults.moveToLikeDrain: moving card', { 
         userId: this.userId, 
         result: result,
         toLikeDrain: likeDrain,
+        toLikeDrainRanked: likeDrainRanked,
       });
     }
 
@@ -53,6 +60,7 @@ export default moveToLikeDrain = new ValidatedMethod({
       $set: {
         cardsRemaining: cardsRemaining,
         likeDrain: likeDrain,
+        likeDrainRanked: likeDrainRanked,
       }
     });
   }
