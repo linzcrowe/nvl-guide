@@ -11,9 +11,12 @@ export default AssignToPileContainer = createContainer((props) => {
 
   return {
     card: card,
-    onAssignToLikeEnergise: (callback) => moveToLikeEnergise.call({ card: card}, callback),
-    onAssignToLikeDrain: (callback) => moveToLikeDrain.call({ card: card }, callback),
-    onAssignToNotLike: (callback) => moveToNotLike.call({ card: card }, callback),
+    onAssignToLikeEnergise: 
+      (callback) => moveToLikeEnergise.call({ card: card}, callback),
+    onAssignToLikeDrain: 
+      (callback) => moveToLikeDrain.call({ card: card }, callback),
+    onAssignToNotLike: 
+      (callback) => moveToNotLike.call({ card: card }, callback),
   };
 }, AssignToPile);
 
