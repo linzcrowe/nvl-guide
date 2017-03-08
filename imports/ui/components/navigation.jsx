@@ -2,7 +2,7 @@ import React from 'react';
 import { IndexLink, Link } from 'react-router';
 import AccountsUIWrapper from '../layouts/accountsUIWrapper.jsx';
 
-export const Navigation = () => (
+export default Navigation = () => (
   <nav className="navbar navbar-default navbar-fixed-top affix-top">
     <div className="container-fluid">
       <div className="navbar-header navigation-bar">
@@ -11,7 +11,7 @@ export const Navigation = () => (
           Menu&nbsp;
           <i className="fa fa-bars" aria-hidden="true"></i>
         </button>
-        <a className="navbar-brand" href="#">NVL Indicator</a>
+        <a className="navbar-brand" href="/">NVL Indicator</a>
       </div>
 
       <div className="collapse navbar-collapse" id="navigation-collapse-burger">

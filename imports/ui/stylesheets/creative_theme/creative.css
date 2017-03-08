@@ -10,16 +10,50 @@ body {
 }
 body {
   font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
-  max-width: 800px;
 }
-hr {
-  border-color: #F05F40;
+hr.short {
   border-width: 3px;
   max-width: 50px;
 }
+hr.primary {
+  border-color: #F05F40;
+}¡
 hr.light {
   border-color: white;
 }
+hr.footer {
+  margin-top: 0px;
+}
+span.primary {
+  color: #F05F40;
+}
+div.flex-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+div.flex-column {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: initial;
+}
+/*
+@media (min-width: 800px) {
+  div.vertical-width-restricted {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 800px;
+  }
+}
+*/
 a {
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
@@ -69,8 +103,8 @@ aside {
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
   transition: all 0.35s;
-  max-width: 800px;
-  margin: auto;
+  width: 100%;
+  margin: 0 auto;
 }
 .navbar-default .navbar-header .navbar-brand {
   color: #F05F40;
@@ -108,6 +142,9 @@ aside {
 .navbar-default .nav > li.active > a:focus:hover {
   background-color: transparent;
 }
+.navbar-block {
+  height: 53px;
+}
 header {
   position: relative;
   width: 100%;
@@ -121,6 +158,7 @@ header {
   color: white;
   
 }
+/*
 @media (min-width: 800px) {
   header {
     margin: 0 auto;
@@ -131,6 +169,7 @@ header {
     width: 800px;
   }
 }
+*/
 header .header-content {
   position: relative;
   text-align: center;
@@ -161,11 +200,13 @@ header .header-content .header-content-inner p {
   max-width: 400px;
   margin: 50px auto 0;
 }
+/*
 @media (min-width: 992px) {
   .service-box {
     margin: 20px auto 0;
   }
 }
+*/
 .service-box p {
   margin-bottom: 0;
 }
@@ -359,4 +400,14 @@ img::-moz-selection {
 }
 body {
   webkit-tap-highlight-color: #222222;
+}
+footer {
+  text-align: center;
+  color: black;
+  font-size: 8px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+.footer-block {
+  height: 65px;
 }
