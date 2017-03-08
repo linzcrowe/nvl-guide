@@ -9,8 +9,10 @@
     "node-debug": "./node_modules/node-inspector/bin/node-debug.js --debug-port 5959"
   },
   "dependencies": {
+    "autoprefixer": "^6.7.6",
     "babel-runtime": "6.18.0",
     "bcrypt": "^1.0.2",
+    "bootstrap-sass": "^3.3.7",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.4.2",
     "react-addons-pure-render-mixin": "^15.4.2",
@@ -25,5 +27,14 @@
     "enzyme": "^2.7.1",
     "react-addons-test-utils": "^15.4.2",
     "sinon": "^1.17.7"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "browsers": [
+          "last 2 versions"
+        ]
+      }
+    }
   }
 }
