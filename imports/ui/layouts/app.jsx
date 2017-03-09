@@ -1,11 +1,11 @@
 import React from 'react';
-import Navigation from '../components/navigation.jsx';
+import NavigationContainer from '../components/navigationContainer.jsx';
 import Footer from '../components/footer.jsx';
 
 export default App = ( { children } ) => (
   <div className="flex-row">
     <div className="flex-column">    
-      <Navigation />
+      <NavigationContainer />
       { children }
       <Footer />
     </div>
