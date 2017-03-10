@@ -35,12 +35,15 @@ AccountsTemplates.configure({
 
     // Hooks
     //onLogoutHook: myLogoutFunc,
-    //onSubmitHook: mySubmitFunc,
-    //preSignUpHook: myPreSubmitFunc,
-    postSignUpHook: () => { 
-      console.log('redirecting to results');
-      browserHistory.push('results');
+    onSubmitHook: (err, state) => {
+      if (!err &&
+          state == 'signIn' ||
+          state == 'signUp') {
+        browserHistory.push('/results');
+      }
     },
+    //preSignUpHook: myPreSubmitFunc,
+    //postSignUpHook: 
 
     // Texts
     texts: {

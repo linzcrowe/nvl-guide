@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import { IndexLink, Link } from 'react-router';
-import AccountsUIWrapper from '../layouts/accountsUIWrapper.jsx';
 
 export default Navigation = (props) => {
   const logInOut = props.loggedIn ? 
