@@ -88,6 +88,7 @@ if (Meteor.isServer) {
             Factory.create('userResults.new', {
               ownerUserId: userId,
               cardsRemaining: [card],
+              shadow: ['s2', 's3', 's4'],
             });
             moveToShadow.run.call({userId: userId}, {card: card, toFront: false});
             result = UserResults.findOne({ownerUserId: userId});

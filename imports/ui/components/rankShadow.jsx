@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import Centre from './centre.jsx';
+import { idToDetails } from '../cardIdToDetails.js';
 
 export default RankShadow = (props) => {
   const callback = (err, suc) => {
@@ -7,20 +9,29 @@ export default RankShadow = (props) => {
     }
   };
 
+  const existingCard = idToDetails(props.existingCard);
+  const newCard = idToDetails(props.newCard);
+
   return (
     <div>
-      <h2>Sort Shadow</h2>
-      <p>Is {props.newCard} more like you than {props.existingCard}?</p>
-      <button 
-        onClick={() => props.onYes(callback)}
-      >
-        Yes
-      </button>
-      <button 
-        onClick={() => props.onNo(callback)}
-      >
-        No
-      </button>
+      <Centre>
+        <div className="flex-row">
+          <Card title={existingCard.title} description={existingCard.description} classes="card-slim" />
+          <Card title={newCard.title} description={newCard.description} classes="card-slim" />
+        </div>
+        <div className="flex-row flex-row-spaced">
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={() => props.onSelectExisting(callback)}>
+            {existingCard.title}
+          </button>
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={() => props.onSelectNew(callback)}>
+            {newCard.title}
+          </button>
+        </div>
+      </Centre>
     </div>
     );
 }
@@ -28,6 +39,6 @@ export default RankShadow = (props) => {
 RankShadow.propTypes = {
   existingCard: PropTypes.string.isRequired,
   newCard: PropTypes.string.isRequired,
-  onYes: PropTypes.func.isRequired,
-  onNo: PropTypes.func.isRequired,
+  onSelectExisting: PropTypes.func.isRequired,
+  onSelectNew: PropTypes.func.isRequired,
 }

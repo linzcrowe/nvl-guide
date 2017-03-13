@@ -49,7 +49,11 @@ export default moveToShadow = new ValidatedMethod({
     cardsRemaining.splice(result.cardsRemaining.indexOf(card), 1);
 
     let shadow = result.shadow.concat([]);
-    shadow.unshift(card);
+    if (toFront) {
+      shadow.unshift(card);
+    } else {
+      shadow.push(card);
+    }
 
     if (Meteor.isServer) {
       Logger.debug('userResults.moveToShadow: moving card to shadow', { 

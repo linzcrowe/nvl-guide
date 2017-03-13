@@ -3,15 +3,15 @@ import React from 'react';
 import Sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import NewTest from './newTest.jsx';
+import StartTest from './startTest.jsx';
 
 if (Meteor.isClient) {
-  describe('ui.components.NewTest', function() {
+  describe('ui.components.StartTest', function() {
     describe('when the user is not logged in', function() {
       let wrapper;
 
       beforeEach(function() {
-        wrapper = shallow(<NewTest isLoggedIn={false} onCreateButtonClick={() => true} />);
+        wrapper = shallow(<StartTest isLoggedIn={false} onCreateButtonClick={() => true} />);
       });
 
       it('renders a paragraph saying the user needs to log in', function() {
@@ -27,7 +27,7 @@ if (Meteor.isClient) {
       let wrapper;
 
       beforeEach(function() {
-        wrapper = shallow(<NewTest isLoggedIn={true} onCreateButtonClick={() => true} />);
+        wrapper = shallow(<StartTest isLoggedIn={true} onCreateButtonClick={() => true} />);
       });
 
       it('does not render a paragraph saying the user needs to log in', function() {
@@ -44,7 +44,7 @@ if (Meteor.isClient) {
 
       beforeEach(function() {
         spy = Sinon.spy();
-        const wrapper = shallow(<NewTest isLoggedIn={true} onCreateButtonClick={spy} />);
+        const wrapper = shallow(<StartTest isLoggedIn={true} onCreateButtonClick={spy} />);
         wrapper.find('#btnCreateResult').simulate('click');
       });
 

@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import NewTestContainer from '../components/newTestContainer.jsx';
+import StartTestContainer from '../components/startTestContainer.jsx';
 import SortIntoPilesContainer from '../layouts/sortIntoPilesContainer.jsx';
 import RankLikeEnergiseContainer from '../layouts/rankLikeEnergiseContainer.jsx';
 import RankLikeDrainContainer from '../layouts/rankLikeDrainContainer.jsx';
@@ -20,19 +20,16 @@ export default Results = (props) => {
   }
   else if(props.results.length === 0) {
     // User doesn't have a result yet
-    header = "Start Test";
-    body = <NewTestContainer />
+    body = <StartTestContainer />
   } else {
     const result = props.results[0];
 
     switch (result.stage) {
       case Stages.SORT:
         if (result.cardsRemaining.length === 0) {
-          header = "Stage 1 Complete";
           body = <StageCompleteContainer />;
         }
         else {
-          header = "Stage 1: Sort Into Groups";
           body = 
             <SortIntoPilesContainer 
               cardsRemaining={result.cardsRemaining} 
@@ -44,10 +41,8 @@ export default Results = (props) => {
         // if finished ranking || not enough in the first place to rank
         if (result.likeEnergise.length === 0 ||
             result.likeEnergiseRanked.length < 4) {
-          header = "Stage 2 Complete";
           body = <StageCompleteContainer />;
         } else {
-          header = "Stage 2: Rank Group One";
           body = 
             <RankLikeEnergiseContainer 
               ranked={result.likeEnergiseRanked}
@@ -59,10 +54,8 @@ export default Results = (props) => {
         // if finished ranking || not enough in the first place to rank
         if (result.likeDrain.length === 0 ||
             result.likeDrainRanked.length < 4) {
-          header = "Stage 3 Complete";
           body = <StageCompleteContainer />;
         } else {
-          header = "Stage 3: Rank Group Two";
           body = 
             <RankLikeDrainContainer
               ranked={result.likeDrainRanked}
@@ -71,7 +64,6 @@ export default Results = (props) => {
         }
         break;
       case Stages.COMPLETE:
-        header = "Your Result";
         body = 
           <ShowResults
             likeEnergiseRanked={result.likeEnergiseRanked}
@@ -89,7 +81,6 @@ export default Results = (props) => {
       <div className="navbar-block" />
       <div className="flex-row">
         <div className="flex-column">
-          <h1>{ header }</h1>
           { body }
         </div>
       </div>

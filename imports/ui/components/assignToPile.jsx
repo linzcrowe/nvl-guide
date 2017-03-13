@@ -1,4 +1,7 @@
 import React, { PropTypes } from 'react';
+import Card from './card.jsx';
+import Centre from './centre.jsx';
+import { idToDetails } from '../cardIdToDetails.js';
 
 export default AssignToPile = (props) => {
   const callback = (err, suc) => {
@@ -6,24 +9,48 @@ export default AssignToPile = (props) => {
       alert(JSON.stringify(err));
     }
   };
+
+  const card = idToDetails(props.card);
   
   return (
     <div>
-      <h1>Assign to Pile</h1>
-      <h2>Card to assign</h2>
-      <p>{props.card}</p>
-      <div>
+      <Centre>
+        <Card 
+          title={card.title}
+          description={card.description}
+          classes="card-wide"
+        />
+      </Centre>
+      <div className='flex-row'>
         <button 
+          className='btn btn-primary btn-sm'
           onClick={() => props.onAssignToLikeEnergise(callback)}>
-          Like me & energises me
+            Like Me
+            <br />
+            Energises Me
         </button>
         <button 
+          className='btn btn-primary btn-sm'
           onClick={() => props.onAssignToLikeDrain(callback)}>
-          Like me but drains / does not energise me
+            Like Me
+            <br />
+            Neutral
         </button>
+        <button 
+          className='btn btn-primary btn-sm'
+          onClick={() => props.onAssignToLikeDrain(callback)}>
+            Like Me
+            <br />
+            Drains Me
+        </button>
+      </div>
+      <div className='flex-row'>
         <button
+          className='btn btn-primary btn-sm'
           onClick={() => props.onAssignToNotLike(callback)}>
-          Not like me
+            Not Like
+            <br />
+            Me
         </button>
       </div>
     </div>

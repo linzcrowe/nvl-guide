@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import insertUserResult from '../../api/userResults/insertUserResult.js';
-import NewTest from './newTest.jsx';
+import StartTest from './startTest.jsx';
 import { Meteor } from 'meteor/meteor';
 
 export default createContainer(() => {
@@ -10,4 +10,4 @@ export default createContainer(() => {
     isLoggedIn: isLoggedIn,
     onCreate: (callback) => insertUserResult.call({}, callback),
   };
-}, NewTest);
+}, StartTest);
