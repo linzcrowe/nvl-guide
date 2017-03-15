@@ -3,17 +3,22 @@ import RankOneIntoFourLikeDrainContainer from '../components/rankOneIntoFourLike
 
 export default RankLikeDrain = (props) => {
   return (
-    <div>
-      <h1>Rank Like Drain</h1>
-      <RankOneIntoFourLikeDrainContainer
-        first={props.first}
-        second={props.second}
-        third={props.third}
-        fourth={props.fourth}
-        toRank={props.toRank}
-      />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="section-heading col-lg-8 col-lg-offset-2 text-center">
+          <h2>Four Most Draining</h2>
+          <hr className="short primary" />
+          <RankOneIntoFourLikeDrainContainer
+            first={props.first}
+            second={props.second}
+            third={props.third}
+            fourth={props.fourth}
+            toRank={props.toRank}
+          />
+        </div>
+      </div>
     </div>
-    );
+  );
 }
 
 RankLikeEnergise.propTypes = {

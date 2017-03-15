@@ -67,7 +67,7 @@ export default Results = (props) => {
         body = 
           <ShowResults
             likeEnergiseRanked={result.likeEnergiseRanked}
-            likeDrainRanked={result.likeDrainedRanked}
+            likeDrainRanked={result.likeDrainRanked}
             shadow={result.shadow} 
           />;
         break;

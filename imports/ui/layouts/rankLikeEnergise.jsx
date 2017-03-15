@@ -3,15 +3,20 @@ import RankOneIntoFourLikeEnergiseContainer from '../components/rankOneIntoFourL
 
 export default RankLikeEnergise = (props) => {
   return (
-    <div>
-      <h1>Rank Like Energise</h1>
-      <RankOneIntoFourLikeEnergiseContainer
-        first={props.first}
-        second={props.second}
-        third={props.third}
-        fourth={props.fourth}
-        toRank={props.toRank}
-      />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="section-heading col-lg-8 col-lg-offset-2 text-center">
+          <h2>Four Most Energising</h2>
+          <hr className="short primary" />
+          <RankOneIntoFourLikeEnergiseContainer
+            first={props.first}
+            second={props.second}
+            third={props.third}
+            fourth={props.fourth}
+            toRank={props.toRank}
+          />
+        </div>
+      </div>
     </div>
     );
 }
