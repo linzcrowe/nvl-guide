@@ -3,25 +3,29 @@ import StartTestContainer from '../components/startTestContainer.jsx';
 import SortIntoPilesContainer from '../layouts/sortIntoPilesContainer.jsx';
 import RankLikeEnergiseContainer from '../layouts/rankLikeEnergiseContainer.jsx';
 import RankLikeDrainContainer from '../layouts/rankLikeDrainContainer.jsx';
-import ShowResults from '../layouts/showResults.jsx';
+import ShowResultsContainer from '../layouts/showResultsContainer.jsx';
 import StageCompleteContainer from '../components/stageCompleteContainer.jsx';
 import Stages from '../../api/userResults/stages.js';
+import LoadingPage from './loadingPage.jsx';
 
 export default Results = (props) => {
   let body;
-  let header;
 
   if (!Meteor.userId()) {
-    header = "Login Required";
     body =
       <div>
         <p>Please <a href="/signup">login / create account</a> to continue.</p>
       </div>;
   }
+  else if(!props.resultsReady) {
+    console.log("Showing loading page...");
+    body = <LoadingPage />
+  }
   else if(props.results.length === 0) {
     // User doesn't have a result yet
     body = <StartTestContainer />
   } else {
+    console.log('logged in and loaded. showing results');
     const result = props.results[0];
 
     switch (result.stage) {
@@ -65,7 +69,7 @@ export default Results = (props) => {
         break;
       case Stages.COMPLETE:
         body = 
-          <ShowResults
+          <ShowResultsContainer
             likeEnergiseRanked={result.likeEnergiseRanked}
             likeDrainRanked={result.likeDrainRanked}
             shadow={result.shadow} 
@@ -90,5 +94,6 @@ export default Results = (props) => {
 }
 
 Results.propTypes = {
-  results: PropTypes.array,
+  resultsReady: React.PropTypes.bool.isRequired,
+  results: PropTypes.array.isRequired,
 }

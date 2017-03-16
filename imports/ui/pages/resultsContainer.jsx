@@ -5,9 +5,10 @@ import { UserResults } from '../../api/userResults/userResults.js';
 import { Meteor } from 'meteor/meteor'
  
 export default createContainer(() => {
-  Meteor.subscribe('userResults.private');
+  let sub = Meteor.subscribe('userResults.private');
 
   return {
+    resultsReady: sub.ready(),
     results: UserResults.find({}).fetch(),
   };
 }, Results);

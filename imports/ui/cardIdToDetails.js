@@ -44,7 +44,7 @@ export const idToDetails = (card) => {
         suite: CARD_SUITE.HEARTS,
         category: CARD_CATEGORY.SHADOW,
         title: 'Self sacrificing',
-        description: 'Sacrifice of one\'s interests, desires, for the good of another',
+        description: 'Sacrifice of one\'s interests, desires, for the good of another person\'s',
       };
       break;
     case 'h4':
