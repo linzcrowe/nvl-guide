@@ -4,7 +4,7 @@ import Centre from '../components/centre.jsx';
 export default LoadingPage = (props) => {
   return (
     <Centre>
-      <h1>Loading...</h1>
+      <h1>Finding your results...</h1>
     </Centre>
   );
 }
