@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Card from './card.jsx';
+import Quality from './quality.jsx';
 import Centre from './centre.jsx';
 import { idToDetails } from '../cardIdToDetails.js';
 
@@ -15,7 +15,7 @@ export default AssignToPile = (props) => {
   return (
     <div>
       <Centre>
-        <Card 
+        <Quality 
           title={card.title}
           description={card.description}
           classes="card-wide"

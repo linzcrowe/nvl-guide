@@ -1,81 +1,103 @@
 import React, { PropTypes } from 'react';
-import { idToDetails, CARD_CATEGORY,
-         CARD_SUITE, CARD_NUMBER } from '../cardIdToDetails.js';
-import Card from '../components/card.jsx';
-import ResultSectionStyleContainer, 
-       {STYLE_RANK, STYLE_NAME} from '../components/resultSectionStyleContainer.jsx';
-import ResultSectionCategoryContainer,
-       {SECTION_STYLE} from '../components/resultSectionCategoryContainer.jsx';
+import { idToDetails, CARD_SUITE } from '../cardIdToDetails.js';
+import ResultSectionContainer, {SECTION_STYLE} from '../components/resultSectionContainer.jsx';
 
 export default ShowResults = (props) => {
   let sections = [];
+  let usePrimaryStyle = true;
 
   // Create the style sections
   if (props.topShadow.suite === CARD_SUITE.SPADES ||
       props.topShadow.suite === CARD_SUITE.CLUBS) {
     sections.push(
-      <ResultSectionStyleContainer
-        styleName={STYLE_NAME.RATIONAL}
-        styleRank={STYLE_RANK.PRIMARY}
+      <ResultSectionContainer
+        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+        titlePrefix={props.relationalCreative.length > 0 ? "Your Primary Style:": "Your Style:"}
+        title="Rational and Analytical"
         cards={props.rationalAnalytical.concat([props.topShadow])}
-        key={STYLE_NAME.RATIONAL.toString() + STYLE_RANK.PRIMARY.toString()} />);
+        explanation={[
+        "Knowledge and expertise are the cornerstones of your style",
+        "You focus on data and results",
+        "You are good at finding why things won't work",
+        "You put the \"no\" in innovation and you are good at finding why thing's won't work"]} 
+        key="Rational and Analytical" />);
+    usePrimaryStyle = !usePrimaryStyle;
 
     if (props.relationalCreative.length > 0) {
       sections.push(
-        <ResultSectionStyleContainer
-          styleName={STYLE_NAME.RELATIONAL}
-          styleRank={STYLE_RANK.SECONDARY}
-          cards={props.relationalCreative} 
-          key={STYLE_NAME.RELATIONAL.toString() + STYLE_RANK.SECONDARY.toString()}/>);
+      <ResultSectionContainer
+        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+        titlePrefix="Your Secondary Style:"
+        title="Relational and Creative"
+        cards={props.relationalCreative}
+        explanation={[
+        "Experiences and relationships between ideas and people are the cornerstones of your style",
+        "You are good at finding new ideas and solutions",
+        "You put the \"fun\" in dysfunction.",
+        "You suffer from easily being distracted"]}
+        key="Relational and Creative" />);
+      usePrimaryStyle = !usePrimaryStyle;
     }
   } else {
     sections.push(
-      <ResultSectionStyleContainer
-        styleName={STYLE_NAME.RELATIONAL}
-        styleRank={STYLE_RANK.PRIMARY}
+      <ResultSectionContainer
+        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+        titlePrefix={props.rationalAnalytical.length > 0 ? "Your Primary Style:": "Your Style:"}
+        title="Relational and Creative"
         cards={props.relationalCreative.concat([props.topShadow])}
-        key={STYLE_NAME.RELATIONAL.toString() + STYLE_RANK.PRIMARY.toString()} />);
+        explanation={[
+        "Experiences and relationships between ideas and people are the cornerstones of your style",
+        "You are good at finding new ideas and solutions",
+        "You put the \"fun\" in dysfunction.",
+        "You suffer from easily being distracted"]}
+        key="Relational and Creative" />);
+      usePrimaryStyle = !usePrimaryStyle;
 
     if (props.rationalAnalytical.length > 0) {
       sections.push(
-        <ResultSectionStyleContainer
-          styleName={STYLE_NAME.RATIONAL}
-          styleRank={STYLE_RANK.SECONDARY}
+        <ResultSectionContainer
+          sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+          titlePrefix="Your Secondary Style:"
+          title="Rational and Analytical"
           cards={props.rationalAnalytical}
-          key={STYLE_NAME.RATIONAL.toString() + STYLE_RANK.SECONDARY.toString()} />);
+          explanation={[
+          "Knowledge and expertise are the cornerstones of your style",
+          "You focus on data and results",
+          "You are good at finding why things won't work",
+          "You put the \"no\" in innovation and you are good at finding why thing's won't work"]} 
+          key="Rational and Analytical" />);
+      usePrimaryStyle = !usePrimaryStyle;
     }
   }
 
   // Create the high and low sections
-  let usePrimaryStyle = true;
-
   // SPADES
   if (props.highSpades.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Analyse - Principles"
+        title="Analysis & Principles"
         cards={props.highSpades}
         explanation={[
-          'Values being a sought after expert',
-          'Loves to empart knowledge',
-          'Can undervalue personal connections',
-          'Can appear arrogant']} 
+          'You values being a sought-after expert',
+          'You loves to empart knowledge',
+          'You may undervalue personal connections',
+          'You might appear arrogant']} 
         key="Analyse - Principles" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
 
   if (props.lowSpades.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Analyse - Facts"
+        title="Analysis & Facts"
         cards={props.lowSpades}
         explanation={[
-          'Love to gather and analyse',
-          'Knowledge is power',
-          'Can suffer analysis paralysis, never getting to a decision',
-          'Can undervalue personal connections']}
+          'You love to gather and analyse',
+          'For you, knowledge is power',
+          'You may suffer analysis paralysis, never quite reaching decisions',
+          'You may undervalue personal connections']}
         key="Analyse - Facts" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
@@ -83,30 +105,30 @@ export default ShowResults = (props) => {
   // CLUBS
   if (props.highClubs.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Manage - Actions"
+        title="Management & Actions"
         cards={props.highClubs}
         explanation={[
-          'Competitive and thrives in action',
-          'Goal driven and motivated by results',
-          'Can forget interpersonal niceties',
-          'Can suffer tunnel vision, focusing on urgent over important']}
+          'You\'re competitive and thrive in action',
+          'You\'re goal driven and motivated by results',
+          'You may forget interpersonal niceties',
+          'You can suffer tunnel vision, focusing on urgent over important']}
         key="Manage - Actions" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
 
   if (props.lowClubs.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Manage - Plans"
+        title="Management & Plans"
         cards={props.lowClubs}
         explanation={[
-          'Loves to plan and organise',
-          'Considered dependable and disciplined',
-          'Can feel lost without clear direction',
-          'Can be resistant to change']}
+          'You loves to plan and organise',
+          'You are considered dependable and disciplined',
+          'You can feel lost without clear direction',
+          'You may be resistant to change']}
         key="Manage - Plans" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
@@ -114,30 +136,30 @@ export default ShowResults = (props) => {
   // HEARTS
   if (props.highHearts.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Engage - Groups"
+        title="Engagement of Groups"
         cards={props.highHearts}
         explanation={[
-          'Highly sociable',
-          'Thrives in the spotlight, centre of attention',
-          'Can be viewed as opinionated and self centred',
-          'Uncomfortable with conflict']}
+          'You are highly sociable',
+          'You thrive in the spotlight, being the centre of attention',
+          'You may be viewed as opinionated and self centred',
+          'You might be uncomfortable with conflict']}
         key="Engage - Groups" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
 
   if (props.lowHearts.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Engage - Individuals"
+        title="Engage of Individuals"
         cards={props.lowHearts}
         explanation={[
-          'Places great value on deep relationships',
-          'Highly supportive of those they\'re close to',
-          'Can try to please everyone',
-          'Can be viewed as weak']}
+          'You place great value on deep relationships',
+          'You\'re highly supportive of those you\'re close to',
+          'You may try to please everyone',
+          'You can be viewed as weak']}
         key="Engage - Individuals" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
@@ -145,33 +167,43 @@ export default ShowResults = (props) => {
   // DIAMONDS
   if (props.highDiamonds.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Create - Experiences"
+        title="To Create & Experience"
         cards={props.highDiamonds}
         explanation={[
-          'Loves entering uncharted territory',
-          'Prefers variety over routine',
-          'Can be easily distracted',
-          'Can fear commitment and procrastinate']}
+          'You love entering uncharted territory',
+          'You prefers variety over routine',
+          'You can be easily distracted',
+          'You may fear commitment and procrastinate']}
         key="Create - Experiences" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
 
   if (props.lowDiamonds.length > 0) {
     sections.push(
-      <ResultSectionCategoryContainer
+      <ResultSectionContainer
         sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-        title="Create - Ideas"
+        title="To Create & Ideate"
         cards={props.lowDiamonds}
         explanation={[
-          'Has a knack for creating unique, inventive ideas',
-          'Loves to entertain new ideas',
-          'Can suffer creative paralysis, forever chasing perfection',
-          'Can appear scattered and illogical']}
+          'You have a knack for creating unique, inventive solutions',
+          'You love to entertain new ideas',
+          'You may suffer creative paralysis, forever chasing perfection',
+          'You can appear scattered and illogical']}
         key="Create - Ideas" />);
     usePrimaryStyle = !usePrimaryStyle;
   }
+
+  sections.push(
+    <ResultSectionContainer
+      sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      title="Want to Start Again?"
+      cards={[]}
+      explanation={[]}
+      linkTitle="Reset My Result"
+      linkAddress="#"
+      key="Want to Start Again?" />);
 
   return (
     <span>

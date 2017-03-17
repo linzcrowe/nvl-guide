@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { idToDetails } from '../cardIdToDetails.js';
-import Card from './card.jsx';
+import Quality from './quality.jsx';
 
 export default class RankOneIntoFour extends React.PureComponent {
   constructor(props) {
@@ -32,7 +32,7 @@ export default class RankOneIntoFour extends React.PureComponent {
           {rankJSX}
         </div>
         <div className="flex-column flex-column-ranking">
-          <Card title={title} />
+          <Quality title={title} />
         </div>
         <div className="flex-column flex-column-ranking">
           <button
@@ -63,7 +63,7 @@ export default class RankOneIntoFour extends React.PureComponent {
       <div className="container-fluid">
         <div className="row">
           <div className="section-heading col-lg-8 col-lg-offset-2 text-center">
-            <Card title={toRank.title} />
+            <Quality title={toRank.title} />
             <br />
             <div className="flex-row">
               <p className="text-muted">

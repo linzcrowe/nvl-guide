@@ -7,9 +7,8 @@ export const SECTION_STYLE = {
   SECONADRY: 1,
 }
 
-export default ResultSectionCategoryContainer = createContainer((props) => {
+export default ResultSectionContainer = createContainer((props) => {
   let styles;
-  let brief = props.brief || "Your qualities in this group";
 
   switch (props.sectionStyle) {
     case SECTION_STYLE.PRIMARY:
@@ -17,36 +16,39 @@ export default ResultSectionCategoryContainer = createContainer((props) => {
         section: "bg-primary",
         hr: "short light",
         p: "text-faded",
+        a: "btn btn-primary btn-xl",
       };
-      titlePrefix = "Primary Style";
       break;
     case SECTION_STYLE.SECONDARY:
       styles = {
         section: "",
         hr: "short primary",
         p: "text-muted",
+        a: "btn btn-default btn-xl",
       };
-      titlePrefix = "Secondary Style";
       break;
     default:
       styles = {};
-      titlePrefix = "Unknown";
   }
 
   return {
+    primary: SECTION_STYLE.PRIMARY ? true : false,
     styles: styles,
-    titlePrefix: undefined,
+    titlePrefix: props.titlePrefix,
     title: props.title,
-    brief: brief,
+    brief: props.brief,
     cards: props.cards,
     explanation: props.explanation,
+    link: props.link,
   };
 }, ResultSection);
 
-ResultSectionCategoryContainer.propTypes = {
+ResultSectionContainer.propTypes = {
   sectionStyle: React.PropTypes.number.isRequired,
+  titlePrefix: React.PropTypes.string,
   title: React.PropTypes.string.isRequired,
   brief: React.PropTypes.string,
   cards: React.PropTypes.array.isRequired,
   explanation: React.PropTypes.array.isRequired,
+  link: React.PropTypes.object,
 }

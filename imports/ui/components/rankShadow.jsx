@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Centre from './centre.jsx';
+import Quality from './quality.jsx';
 import { idToDetails } from '../cardIdToDetails.js';
 
 export default RankShadow = (props) => {
@@ -16,8 +17,8 @@ export default RankShadow = (props) => {
     <div>
       <Centre>
         <div className="flex-row">
-          <Card title={existingCard.title} description={existingCard.description} classes="card-slim" />
-          <Card title={newCard.title} description={newCard.description} classes="card-slim" />
+          <Quality title={existingCard.title} description={existingCard.description} classes="card-slim" />
+          <Quality title={newCard.title} description={newCard.description} classes="card-slim" />
         </div>
         <div className="flex-row flex-row-spaced">
           <button 

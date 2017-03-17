@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import Centre from './centre.jsx';
 
-export default Card = (props) => {
-  const cardClasses = "card " +
+export default Quality = (props) => {
+  const classes = "card " +
     (props.description ? "" : " card-title-only ") +
     props.classes;
 
@@ -14,7 +14,7 @@ export default Card = (props) => {
     "";
 
   return (
-    <span className={cardClasses}>
+    <span className={classes}>
       <div className="card-title">
         {props.title}
       </div>
@@ -23,7 +23,7 @@ export default Card = (props) => {
   );
 }
 
-Card.propTypes = {
+Quality.propTypes = {
   title: React.PropTypes.string.isRequired,
   description: React.PropTypes.string,
   classes: React.PropTypes.string,
