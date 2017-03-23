@@ -8,3 +8,4 @@ import arrangeLikeEnergise from './arrangeLikeEnergise.js';
 import incrementStage from './incrementStage.js';
 import rankLikeEnergise from './rankLikeEnergise.js';
 import rankLikeDrain from './rankLikeDrain.js';
+import deleteResult from './deleteResult.js';
