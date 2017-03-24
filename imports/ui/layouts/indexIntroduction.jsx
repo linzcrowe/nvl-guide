@@ -8,7 +8,7 @@ export default IndexIntroduction = (props) => {
   return (
     <Header>
       <div className="header-content-inner">
-        <h1 id="homeHeading">
+        <h1>
           Get more out of your day
         </h1>
         <Hr />
