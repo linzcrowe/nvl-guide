@@ -1,16 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import Sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import Brief from './brief.jsx';
+import Paragraph from './paragraph.jsx';
 
 if (Meteor.isClient) {
   describe('ui.components.Brief', function() {
     let wrapper;
 
     beforeEach(function() {
-      wrapper = shallow(<Brief />);
+      wrapper = shallow(<Paragraph />);
     });
 
     it('renders a p at the base', function() {
@@ -19,7 +18,7 @@ if (Meteor.isClient) {
 
     describe('when passed the primary attribute', function() {
       beforeEach(function() {
-        wrapper = shallow(<Brief primary />);
+        wrapper = shallow(<Paragraph primary />);
       });
 
       it('styles p with the text-faded class', function() {
@@ -29,7 +28,7 @@ if (Meteor.isClient) {
 
     describe('when not passed the primary attribute', function() {
       beforeEach(function() {
-        wrapper = shallow(<Brief />);
+        wrapper = shallow(<Paragraph />);
       });
 
       it ('styles p with the text-muted class', function() {
@@ -40,9 +39,9 @@ if (Meteor.isClient) {
     describe('when passed children', function() {
       beforeEach(function() {
         wrapper = shallow(
-          <Brief>
+          <Paragraph>
             <i>text</i>
-          </Brief>
+          </Paragraph>
         );
       });
 

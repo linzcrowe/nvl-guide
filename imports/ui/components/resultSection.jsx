@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
 import SectionTitle from './sectionTitle.jsx';
 import Hr from './hr.jsx';
-import Brief from './brief.jsx';
-import QualitiesRow from './qualitiesRow.jsx';
-import Description from './description.jsx';
-import LinkBtn from './linkBtn.jsx';
+import Paragraph from './paragraph.jsx';
+import AHref from './aHref.jsx';
+import CentredRow from './centredRow.jsx';
 
 export default ResultSection = ({
   primary,
@@ -25,20 +24,24 @@ export default ResultSection = ({
       </SectionTitle>
       <Hr primary={isPrimary} />
       {brief &&
-        <Brief primary={isPrimary}>
+        <Paragraph primary={isPrimary}>
           {brief}
-        </Brief>
+        </Paragraph>
       }
-      <QualitiesRow>
-        {cards}
-      </QualitiesRow>
-      <Description primary={isPrimary}>
-        {explanation}
-      </Description>
+      {cards.map((card, index) => {
+        <CentredRow wrap>
+          <Quality title={card.title} key={index} />
+        </CentredRow>})
+      }
+      {explanation.map(exp => 
+        <Paragraph primary={isPrimary}>
+          {explanation}
+        </Paragraph>)
+      }
       {link &&
-        <LinkBtn primary={isPrimary} large linkTo={link.address}>
+        <AHref primary={isPrimary} large linkTo={link.address}>
           {link.title}
-        </LinkBtn>
+        </AHref>
       }
     </Section>
   );

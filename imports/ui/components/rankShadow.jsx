@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react';
 import Centre from './centre.jsx';
 import Quality from './quality.jsx';
 import { idToDetails } from '../cardIdToDetails.js';
+import SpacedRow from './spacedRow.jsx';
+import Button from './button.jsx';
 
 export default RankShadow = (props) => {
   const callback = (err, suc) => {
@@ -16,22 +18,24 @@ export default RankShadow = (props) => {
   return (
     <div>
       <Centre>
-        <div className="flex-row">
-          <Quality title={existingCard.title} description={existingCard.description} classes="card-slim" />
-          <Quality title={newCard.title} description={newCard.description} classes="card-slim" />
-        </div>
-        <div className="flex-row flex-row-spaced">
-          <button 
-            className="btn btn-primary btn-sm"
-            onClick={() => props.onSelectExisting(callback)}>
+        <CentredRow>
+          <Quality 
+            title={existingCard.title} 
+            description={existingCard.description} 
+            slim />
+          <Quality 
+            title={newCard.title} 
+            description={newCard.description} 
+            slim />
+        </CentredRow>
+        <SpacedRow padding>
+          <Button primary onClick={() => props.onSelectExisting(callback)}>
             {existingCard.title}
-          </button>
-          <button 
-            className="btn btn-primary btn-sm"
-            onClick={() => props.onSelectNew(callback)}>
+          </Button>
+          <Button primary onClick={() => props.onSelectNew(callback)}>
             {newCard.title}
-          </button>
-        </div>
+          </Button>
+        </SpacedRow>
       </Centre>
     </div>
     );

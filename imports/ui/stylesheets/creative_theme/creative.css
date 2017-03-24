@@ -27,22 +27,26 @@ hr.footer {
 span.primary {
   color: #F05F40;
 }
-.flex-row {
+.flex-row,
+.flex-column {
   width: 100%;
   display: flex;
+}
+.flex-row {
   flex-direction: row;
   justify-content: center;
+}
+.flex-spaced-between {
+  justify-content:  space-between;
 }
 .flex-row-wrap {
   flex-wrap: wrap;
 }
-.flex-row-spaced {
+.flex-spaced-around {
   justify-content: space-around;
 }
 .flex-column {
-  width: 100%;
   max-width: 800px;
-  display: flex;
   flex-direction: column;
   box-sizing: initial;
   justify-content: center;
@@ -408,7 +412,7 @@ footer {
   transition: 0.3s;
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
   text-align: center;
-  margin: 20px auto;
+  margin: 10px auto;
   background-color: #F3F3F3;
 }
 .card-wide {
@@ -419,8 +423,8 @@ footer {
   width: 175px;
   height: 250px;
 }
-.card-title-only {
-  margin:  10px auto;
+.card-with-description {
+  margin:  20px auto;
 }
 .card-title {
   font-weight: 500;
@@ -433,9 +437,4 @@ footer {
   font-weight: 300;
   font-size: 18px;
   padding: 10px 10px 20px 10px;
-}
-.rank-row {
-  width: 100%;
-  display:  flex;
-  justify-content:  space-between;
 }

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-export default Brief = (props) => {
+export default Paragraph = (props) => {
   return (
     <p className={props.primary ? "text-faded" : "text-muted"}>
       {props.children}
@@ -8,6 +8,6 @@ export default Brief = (props) => {
   );
 }
 
-Brief.propTypes = {
+Paragraph.propTypes = {
   primary: React.PropTypes.bool,
 }

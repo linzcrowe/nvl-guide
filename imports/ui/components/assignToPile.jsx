@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import Quality from './quality.jsx';
 import Centre from './centre.jsx';
-import { idToDetails } from '../cardIdToDetails.js';
+import Button from './button.jsx';
+import CentredRow from './centredRow.jsx';
 
 export default AssignToPile = (props) => {
   const callback = (err, suc) => {
@@ -9,56 +10,46 @@ export default AssignToPile = (props) => {
       alert(JSON.stringify(err));
     }
   };
-
-  const card = idToDetails(props.card);
   
   return (
     <div>
       <Centre>
         <Quality 
-          title={card.title}
-          description={card.description}
-          classes="card-wide"
+          title={props.qualityTitle}
+          description={props.qualityDescription}
         />
       </Centre>
-      <div className='flex-row'>
-        <button 
-          className='btn btn-primary btn-sm'
-          onClick={() => props.onAssignToLikeEnergise(callback)}>
-            Like Me
+      <CentredRow>
+        <Button primary onClick={() => props.onAssignToLikeEnergise(callback)}>
+            I'm Like This
             <br />
-            Energises Me
-        </button>
-        <button 
-          className='btn btn-primary btn-sm'
-          onClick={() => props.onAssignToLikeDrain(callback)}>
-            Like Me
+            It Energises Me
+        </Button>
+        <Button primary onClick={() => props.onAssignToLikeDrain(callback)}>
+            I'm Like This
             <br />
             Neutral
-        </button>
-        <button 
-          className='btn btn-primary btn-sm'
-          onClick={() => props.onAssignToLikeDrain(callback)}>
-            Like Me
+        </Button>
+        <Button primary onClick={() => props.onAssignToLikeDrain(callback)}>
+            I'm Like This
             <br />
-            Drains Me
-        </button>
-      </div>
-      <div className='flex-row'>
-        <button
-          className='btn btn-primary btn-sm'
-          onClick={() => props.onAssignToNotLike(callback)}>
-            Not Like
+            It Drains Me
+        </Button>
+      </CentredRow>
+      <CentredRow>
+        <Button primary onClick={() => props.onAssignToNotLike(callback)}>
+            I'm Not Like
             <br />
-            Me
-        </button>
-      </div>
+            This
+        </Button>
+      </CentredRow>
     </div>
     );
 }
 
 AssignToPile.propTypes = {
-  card: PropTypes.string.isRequired,
+  qualityTitle: PropTypes.string.isRequired,
+  qualityDescription: PropTypes.string.isRequired,
   onAssignToLikeEnergise: PropTypes.func.isRequired,
   onAssignToLikeDrain: PropTypes.func.isRequired,
   onAssignToNotLike: PropTypes.func.isRequired,

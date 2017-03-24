@@ -1,25 +1,23 @@
 import React, {PropTypes} from 'react';
-import StartTestContainer from '../components/startTestContainer.jsx';
+import StartTestContainer from '../layouts/startTestContainer.jsx';
 import SortIntoPilesContainer from '../layouts/sortIntoPilesContainer.jsx';
 import RankLikeEnergiseContainer from '../layouts/rankLikeEnergiseContainer.jsx';
 import RankLikeDrainContainer from '../layouts/rankLikeDrainContainer.jsx';
 import ShowResultsContainer from '../layouts/showResultsContainer.jsx';
-import StageCompleteContainer from '../components/stageCompleteContainer.jsx';
+import StageCompleteContainer from '../layouts/stageCompleteContainer.jsx';
 import Stages from '../../api/userResults/stages.js';
-import LoadingPage from './loadingPage.jsx';
+import Loading from '../layouts/loading.jsx';
+import Centre from '../components/centre.jsx';
 
 export default Results = (props) => {
   let body;
 
   if (!Meteor.userId()) {
-    body =
-      <div>
-        <p>Please <a href="/signup">login / create account</a> to continue.</p>
-      </div>;
+    body = <p>Please <a href="/signup">login / create an account</a> to continue.</p>
   }
   else if(!props.resultsReady) {
     console.log("Showing loading page...");
-    body = <LoadingPage />
+    body = <Loading />
   }
   else if(props.results.length === 0) {
     // User doesn't have a result yet
@@ -82,13 +80,9 @@ export default Results = (props) => {
 
   return (
     <div>
-      <div className="navbar-block" />
-      <div className="flex-row">
-        <div className="flex-column">
-          { body }
-        </div>
-      </div>
-      <div className="footer-block" />
+      <Centre>>
+        {body}
+      </Centre>
     </div>
     );
 }

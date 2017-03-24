@@ -5,18 +5,20 @@ import { UserResults } from '../../api/userResults/userResults.js';
 import moveToLikeEnergise from '../../api/userResults/moveToLikeEnergise.js';
 import moveToLikeDrain from '../../api/userResults/moveToLikeDrain.js';
 import moveToNotLike from '../../api/userResults/moveToNotLike.js';
+import { idToDetails } from '../cardIdToDetails.js';
  
 export default AssignToPileContainer = createContainer((props) => {
-  const card = props.card;
+  const card = idToDetails(props.card);
 
   return {
-    card: card,
+    qualityTitle: card.title,
+    qualityDescription: card.description,
     onAssignToLikeEnergise: 
-      (callback) => moveToLikeEnergise.call({ card: card}, callback),
+      (callback) => moveToLikeEnergise.call({ card: props.card}, callback),
     onAssignToLikeDrain: 
-      (callback) => moveToLikeDrain.call({ card: card }, callback),
+      (callback) => moveToLikeDrain.call({ card: props.card }, callback),
     onAssignToNotLike: 
-      (callback) => moveToNotLike.call({ card: card }, callback),
+      (callback) => moveToNotLike.call({ card: props.card }, callback),
   };
 }, AssignToPile);
 

@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
+import CentredRow from './centredRow.jsx';
+import CentredColumn from './centredColumn.jsx';
 
 export default Centre = (props) => {
   return (
-    <div className="flex-row">
-      <div className="flex-column">
+    <CentredRow>
+      <CentredColumn>
         {props.children}
-      </div>
-    </div>
+      </CentredColumn>
+    </CentredRow>
   );
 }
 

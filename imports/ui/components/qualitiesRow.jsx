@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 import Quality from './quality.jsx';
+import CentredRow from './centredRow.jsx';
 
 export default QualitiesRow = (props) => {
   return (
-    <div className="flex-row flex-row-wrap">
+    <CentredRow wrap>
       {props.children.map((card, index) => <Quality title={card.title} key={index}/>)}
-    </div>
+    </CentredRow>
   );
 }
 

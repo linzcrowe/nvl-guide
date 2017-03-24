@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-export default LinkBtn = (props) => {
+export default AHref = (props) => {
   const size = props.large ? " btn-xl " : " btn-sm ";
   const color = props.primary ? " btn-primary " : " btn-default ";
   const classes = "btn " + size + color;
@@ -12,7 +12,7 @@ export default LinkBtn = (props) => {
   );
 }
 
-LinkBtn.propTypes = {
+AHref.propTypes = {
   primary: React.PropTypes.bool,
   large: React.PropTypes.bool,
   linkTo: React.PropTypes.string.isRequired,

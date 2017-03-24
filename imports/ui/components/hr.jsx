@@ -7,5 +7,5 @@ export default Hr = (props) => {
 }
 
 Hr.propTypes = {
-  primary: React.PropTypes.bool.isRequired,
+  primary: React.PropTypes.bool,
 }

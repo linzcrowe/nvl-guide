@@ -8,6 +8,6 @@ export default createContainer(() => {
   const isLoggedIn = Meteor.userId() !== undefined;
   return {
     isLoggedIn: isLoggedIn,
-    onCreate: (callback) => insertUserResult.call({}, callback),
+    onStart: (callback) => insertUserResult.call({}, callback),
   };
 }, StartTest);
