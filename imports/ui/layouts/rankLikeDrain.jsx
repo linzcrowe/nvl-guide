@@ -21,7 +21,7 @@ export default RankLikeDrain = (props) => {
   );
 }
 
-RankLikeEnergise.propTypes = {
+RankLikeDrain.propTypes = {
   first: PropTypes.string.isRequired,
   second: PropTypes.string.isRequired,
   third: PropTypes.string.isRequired,
