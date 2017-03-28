@@ -39,7 +39,7 @@ if (Meteor.isClient) {
     });
 
     it('renders the Footer as the last child of the Centre', function() {
-      const footer = wrapper.find('Centre').children().at(3);
+      const footer = wrapper.find('Centre').childAt(3);
       expect(footer.is('Footer')).to.be.true;
     });
   });

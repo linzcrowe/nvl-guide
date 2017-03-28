@@ -6,8 +6,8 @@ import moveToLikeEnergise from '../../api/userResults/moveToLikeEnergise.js';
 import moveToLikeDrain from '../../api/userResults/moveToLikeDrain.js';
 import moveToNotLike from '../../api/userResults/moveToNotLike.js';
 import { idToDetails } from '../cardIdToDetails.js';
- 
-export default AssignToPileContainer = createContainer((props) => {
+
+export const AssignToPileContainer = (props) => {
   const card = idToDetails(props.card);
 
   return {
@@ -20,8 +20,10 @@ export default AssignToPileContainer = createContainer((props) => {
     onAssignToNotLike: 
       (callback) => moveToNotLike.call({ card: props.card }, callback),
   };
-}, AssignToPile);
+};
 
-AssignToPileContainer.propTypes = {
+export default AssignToPileMeteorContainer = createContainer(AssignToPileContainer, AssignToPile);
+
+AssignToPileMeteorContainer.propTypes = {
   card: PropTypes.string.isRequired,
 }

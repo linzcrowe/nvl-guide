@@ -45,5 +45,4 @@ export default SortIntoPiles = (props) => {
 SortIntoPiles.propTypes = {
   cardsRemaining: PropTypes.array.isRequired,
   shadowCards: PropTypes.array.isRequired,
-  onSorted: PropTypes.func.isRequired,
 }

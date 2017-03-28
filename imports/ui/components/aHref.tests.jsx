@@ -35,9 +35,9 @@ if (Meteor.isClient) {
           expect(element.hasClass('btn-sm')).to.be.true;
         });
 
-        it('sets the class btn-default on the a', function() {
+        it('sets the class btn-primary on the a', function() {
           const element = wrapper.find('a');
-          expect(element.hasClass('btn-default')).to.be.true;
+          expect(element.hasClass('btn-primary')).to.be.true;
         });
       });
     });
@@ -56,9 +56,9 @@ if (Meteor.isClient) {
           expect(element.hasClass('btn-xl')).to.be.true;
         });
 
-        it('sets the class btn-primary on the a', function() {
+        it('sets the class btn-default on the a', function() {
           const element = wrapper.find('a');
-          expect(element.hasClass('btn-primary')).to.be.true;
+          expect(element.hasClass('btn-default')).to.be.true;
         });
       });
     });

@@ -28,8 +28,8 @@ if (Meteor.isClient) {
           expect(wrapper.find('button.btn-xl').length).to.equal(1);
         });
 
-        it('the button has the class btn-primary', function() {
-          expect(wrapper.find('button.btn-primary').length).to.equal(1);
+        it('the button has the class btn-default', function() {
+          expect(wrapper.find('button.btn-default').length).to.equal(1);
         });
       });
 
@@ -52,8 +52,8 @@ if (Meteor.isClient) {
           expect(wrapper.find('button.btn-sm').length).to.equal(1);
         });
 
-        it('the button has the class btn-primary', function() {
-          expect(wrapper.find('button.btn-primary').length).to.equal(1);
+        it('the button has the class btn-default', function() {
+          expect(wrapper.find('button.btn-default').length).to.equal(1);
         });
       });
     });
@@ -79,7 +79,7 @@ if (Meteor.isClient) {
         });
 
         it('the button has the class btn-primary', function() {
-          expect(wrapper.find('button.btn-default').length).to.equal(1);
+          expect(wrapper.find('button.btn-primary').length).to.equal(1);
         });
       });
 
@@ -103,7 +103,7 @@ if (Meteor.isClient) {
         });
 
         it('the button has the class btn-primary', function() {
-          expect(wrapper.find('button.btn-default').length).to.equal(1);
+          expect(wrapper.find('button.btn-primary').length).to.equal(1);
         });
       });
     });

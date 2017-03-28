@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { idToDetails, CARD_SUITE } from '../cardIdToDetails.js';
-import ResultSectionContainer, {SECTION_STYLE} from '../components/resultSectionContainer.jsx';
+import ResultSection from '../layouts/resultSection.jsx';
+import ResetSection from '../layouts/resetSection.jsx';
 
 export default ShowResults = (props) => {
   let sections = [];
@@ -10,8 +11,8 @@ export default ShowResults = (props) => {
   if (props.topShadow.suite === CARD_SUITE.SPADES ||
       props.topShadow.suite === CARD_SUITE.CLUBS) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         titlePrefix={props.relationalCreative.length > 0 ? "Your Primary Style:": "Your Style:"}
         title="Rational and Analytical"
         cards={props.rationalAnalytical.concat([props.topShadow])}
@@ -25,8 +26,8 @@ export default ShowResults = (props) => {
 
     if (props.relationalCreative.length > 0) {
       sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         titlePrefix="Your Secondary Style:"
         title="Relational and Creative"
         cards={props.relationalCreative}
@@ -40,8 +41,8 @@ export default ShowResults = (props) => {
     }
   } else {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         titlePrefix={props.rationalAnalytical.length > 0 ? "Your Primary Style:": "Your Style:"}
         title="Relational and Creative"
         cards={props.relationalCreative.concat([props.topShadow])}
@@ -55,8 +56,8 @@ export default ShowResults = (props) => {
 
     if (props.rationalAnalytical.length > 0) {
       sections.push(
-        <ResultSectionContainer
-          sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+        <ResultSection
+          primary={usePrimaryStyle}
           titlePrefix="Your Secondary Style:"
           title="Rational and Analytical"
           cards={props.rationalAnalytical}
@@ -74,8 +75,8 @@ export default ShowResults = (props) => {
   // SPADES
   if (props.highSpades.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Analysis & Principles"
         cards={props.highSpades}
         explanation={[
@@ -89,8 +90,8 @@ export default ShowResults = (props) => {
 
   if (props.lowSpades.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Analysis & Facts"
         cards={props.lowSpades}
         explanation={[
@@ -105,8 +106,8 @@ export default ShowResults = (props) => {
   // CLUBS
   if (props.highClubs.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Management & Actions"
         cards={props.highClubs}
         explanation={[
@@ -120,8 +121,8 @@ export default ShowResults = (props) => {
 
   if (props.lowClubs.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Management & Plans"
         cards={props.lowClubs}
         explanation={[
@@ -136,8 +137,8 @@ export default ShowResults = (props) => {
   // HEARTS
   if (props.highHearts.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Engagement of Groups"
         cards={props.highHearts}
         explanation={[
@@ -151,8 +152,8 @@ export default ShowResults = (props) => {
 
   if (props.lowHearts.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="Engage of Individuals"
         cards={props.lowHearts}
         explanation={[
@@ -167,8 +168,8 @@ export default ShowResults = (props) => {
   // DIAMONDS
   if (props.highDiamonds.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="To Create & Experience"
         cards={props.highDiamonds}
         explanation={[
@@ -182,8 +183,8 @@ export default ShowResults = (props) => {
 
   if (props.lowDiamonds.length > 0) {
     sections.push(
-      <ResultSectionContainer
-        sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
+      <ResultSection
+        primary={usePrimaryStyle}
         title="To Create & Ideate"
         cards={props.lowDiamonds}
         explanation={[
@@ -195,15 +196,7 @@ export default ShowResults = (props) => {
     usePrimaryStyle = !usePrimaryStyle;
   }
 
-  sections.push(
-    <ResultSectionContainer
-      sectionStyle={usePrimaryStyle ? SECTION_STYLE.PRIMARY : SECTION_STYLE.SECONDARY}
-      title="Want to Start Again?"
-      cards={[]}
-      explanation={[]}
-      linkTitle="Reset My Result"
-      linkAddress="#"
-      key="Want to Start Again?" />);
+  sections.push(<ResetSection primary={usePrimaryStyle} />);
 
   return (
     <span>

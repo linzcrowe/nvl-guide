@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
-import SectionTitle from './sectionTitle.jsx';
-import Hr from './hr.jsx';
-import Paragraph from './paragraph.jsx';
-import AHref from './aHref.jsx';
-import CentredRow from './centredRow.jsx';
+import SectionTitle from '../components/sectionTitle.jsx';
+import Hr from '../components/hr.jsx';
+import Paragraph from '../components/paragraph.jsx';
+import AHref from '../components/aHref.jsx';
+import CentredRow from '../components/centredRow.jsx';
 
 export default ResultSection = ({
   primary,
-  styles, 
   titlePrefix,
   title,
   brief,
@@ -28,14 +27,12 @@ export default ResultSection = ({
           {brief}
         </Paragraph>
       }
-      {cards.map((card, index) => {
-        <CentredRow wrap>
-          <Quality title={card.title} key={index} />
-        </CentredRow>})
-      }
-      {explanation.map(exp => 
-        <Paragraph primary={isPrimary}>
-          {explanation}
+      <CentredRow wrap>
+        {cards.map((card, index) => <Quality title={card.title} key={index} />)}
+      </CentredRow>
+      {explanation.map((line, index) => 
+        <Paragraph primary={isPrimary} key={index}>
+          {line}
         </Paragraph>)
       }
       {link &&
@@ -49,7 +46,6 @@ export default ResultSection = ({
 
 ResultSection.propTypes = {
   primary: React.PropTypes.bool,
-  styles: React.PropTypes.object.isRequired,
   titlePrefix: React.PropTypes.string,
   title: React.PropTypes.string.isRequired,
   brief: React.PropTypes.string,

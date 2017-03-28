@@ -16,8 +16,7 @@ export default AssignToPile = (props) => {
       <Centre>
         <Quality 
           title={props.qualityTitle}
-          description={props.qualityDescription}
-        />
+          description={props.qualityDescription} />
       </Centre>
       <CentredRow>
         <Button primary onClick={() => props.onAssignToLikeEnergise(callback)}>

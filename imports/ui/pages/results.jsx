@@ -16,14 +16,12 @@ export default Results = (props) => {
     body = <p>Please <a href="/signup">login / create an account</a> to continue.</p>
   }
   else if(!props.resultsReady) {
-    console.log("Showing loading page...");
     body = <Loading />
   }
   else if(props.results.length === 0) {
     // User doesn't have a result yet
     body = <StartTestContainer />
   } else {
-    console.log('logged in and loaded. showing results');
     const result = props.results[0];
 
     switch (result.stage) {

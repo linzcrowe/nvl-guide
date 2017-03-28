@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 export default AHref = (props) => {
   const size = props.large ? " btn-xl " : " btn-sm ";
-  const color = props.primary ? " btn-primary " : " btn-default ";
+  const color = props.primary ? " btn-default " : " btn-primary ";
   const classes = "btn " + size + color;
 
   return (

@@ -17,7 +17,7 @@ export default IndexIntroduction = (props) => {
           Focus on the good, minimise the bad.<br/>
           End your days feeling happy and relaxed.
         </Paragraph>
-        <AHref linkTo={props.whereToNext} primary large>
+        <AHref linkTo={props.whereToNext} large>
           Start Now
         </AHref>
       </div>
